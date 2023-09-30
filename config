@@ -165,6 +165,7 @@ Style "audacious" NoTitle, BorderWidth 0, HandleWidth 0, !Maximizable
 Style "google-chrome" NoTitle
 Style "stalonetray" NoTitle, BorderWidth 0, HandleWidth 0, !Maximizable, \
     !Iconifiable, NeverFocus, WindowListSkip, StaysOnBottom
+Style "qemu-system-x86_64" StartsOnPage 1 0, InitialMapCommand Move 1 1
 
 
 ###############
