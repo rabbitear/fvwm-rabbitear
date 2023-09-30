@@ -3,7 +3,7 @@
 To build FVWM3 on Fedora
 ## Depends for compiling FVWM3 for Fedora:
 ```bash
-sudo dnf install libevent-devel libX11-devel libXrandr-devel libXt-devel libXft-devel asciidoctor fontconfig-devel ncurses-devel libpng-devel readline-devel  libSM-devel libXcursor-devel libXpm-devel
+sudo dnf install libevent-devel libX11-devel libXrandr-devel libXt-devel libXft-devel asciidoctor fontconfig-devel ncurses-devel libpng-devel readline-devel  libSM-devel libXcursor-devel libXpm-devel xterm feh xwd
 ```
 
 ## Quick start compile and install fvwm3:

@@ -182,7 +182,7 @@ AddToFunc InitFunction
     --config=$HOME/.fvwm/conkyrc
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
-+ I Exec exec dbus-launch pidgin &
+#+ I Exec exec dbus-launch pidgin &
 
 
 # Start happens when restart
