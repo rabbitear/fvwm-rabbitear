@@ -3,5 +3,6 @@
 
 ![Screenshot1](./Pixmap/ss2.png)
 
-[Notes](./dev/Notes.md)
+[Notes](./dev/Notes.md) on compiling on Fedora, and maybe some other notes too.
+
 
