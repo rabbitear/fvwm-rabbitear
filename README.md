@@ -9,7 +9,7 @@
 
 Adding a toolbar, mostly for toggles, one menu and a terminal.
 
-![Screenshot2](./Pixmap/ss3.png)
+![Screenshot3](./Pixmap/ss4.png)
 
 Have a great day!! \o/
 
