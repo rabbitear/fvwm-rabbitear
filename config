@@ -145,6 +145,7 @@ style "xclock" NoTitle, BorderWidth 0, HandleWidth 0, StaysOnBottom, \
     Sticky, WindowListSkip
 style "xosview" NoTitle, BorderWidth 0, HandleWidth 0, StaysOnBottom, \
     Sticky, WindowListSkip
+
 style "XTerm"   BorderWidth 6, Handlewidth 6, MiniIcon linux.xpm,\
     Icon utilities-terminal.png
 Style "wireshark" MiniIcon monitoring.xpm
@@ -169,7 +170,8 @@ Style "google-chrome" NoTitle
 Style "stalonetray" NoTitle, BorderWidth 0, HandleWidth 0, !Maximizable, \
     !Iconifiable, NeverFocus, WindowListSkip, StaysOnBottom
 Style "qemu-system-x86_64" StartsOnPage 1 0, InitialMapCommand Move 1 1
-
+Style "urxvt" BorderWidth 6, Handlewidth 6, MiniIcon linux.xpm, \
+    Icon utilities-terminal.png, ManualPlacement
 
 ###############
 ## Functions ##
@@ -182,6 +184,8 @@ AddToFunc InitFunction
 + I Exec exec xdaliclock -24 -builtin0 -transparent -memory high -nocycle -seconds \
     -fg grey10 -geometry -0-0
 + I Exec exec stalonetray --transparent --vertical --geometry 32x1-5+80 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
++ I Exec exec nitrogen --restore
++ I Exec exec xcompmgr -cCfF -t-5 -l-5 -r4.2 -o.55 -D6
 + I Exec exec conky --alignment=bottom_left --double-buffer --daemonize \
     --config=$HOME/.fvwm/conkyrc
 + I Exec exec nm-applet
@@ -195,6 +199,8 @@ AddToFunc StartFunction
 + I Exec exec xsetroot -solid grey10
 + I Exec exec feh --bg-scale ~/.fvwm/Pixmap/backgrounds/eclipse9.jpg
 + I Exec exec xset r rate 175 60
++ I PipeRead 'echo "DesktopSize 2x2 $[w.screen] size $[w.screen.width]x$[w.screen.height]"'
++ I PipeRead 'echo "DesktopSize 2x2 $[w.screen] size $[w.screen.width]x$[w.screen.height]" > ~/FVWM-size.tst'
 + I Module FvwmEvent
 + I Module FvwmPager 0 0
 
@@ -262,7 +268,6 @@ AddToFunc ToggleFirefox
 + I All (firefox) Raise
 + I All (firefox) WarpToWindow +200p +90p
 + I TestRc (NoMatch) Exec exec firefox
-
 
 ## ktr - use this later for pidgin and cheese.
 ##       gimp, firefox, rox all look for current running ps.
@@ -353,7 +358,12 @@ AddToFunc   FuncResetHeadlines
 + I DestroyMenu linuxtoday
 + I DestroyMenu slashdot
 + I DestroyMenu gnome-news
-+ I DestroyMenu kde-news
+
+## ktr - this should go closer to where the MENU's are!
+DestroyFunc FuncFvwmMenuDirectory
+AddToFunc   FuncFvwmMenuDirectory
+#+ I PipeRead "fvwm-menu-directory --exec-app=pcmanfm -d '$0'"
++ I PipeRead "fvwm-menu-directory --xterm='ls;' --exec-file=/usr/bin/pcmanfm -all -d=$0"
 
 
 #####
@@ -550,9 +560,13 @@ DestroyModuleConfig FvwmPager: *
 
 
 # Keys for the Root Window
-Mouse 1         R       A       -
+Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x11 
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu MainMenu
+# -fade 50 \
+# -fadeColor black \
+# -fadeTint white \
+# -title "urxvt no tmux"
 
 DestroyFunc PlainDecor
 AddToFunc PlainDecor
