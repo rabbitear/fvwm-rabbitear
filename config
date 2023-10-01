@@ -24,12 +24,13 @@ EwmhBaseStruts 0 128 0 0
 # Hooked up to the TV, so the other 4 Pages are getting in the way with
 # the two monitors, so 1x1
 #DesktopSize     2x2
-DesktopSize     1x1
-EdgeScroll      100 100
+#DesktopSize     1x1
+DesktopSize      2x2 1x1
+EdgeScroll      150 150
 EdgeThickness 2
-EdgeResistance 250
-Style * EdgeMoveDelay 250
-Style * EdgeMoveResistance 250
+EdgeResistance 450
+Style * EdgeMoveDelay 450
+Style * EdgeMoveResistance 450
 
 
 #############################
@@ -188,9 +189,9 @@ AddToFunc InitFunction
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
 + I Exec exec copyq
-+ I Exec exec xdaliclock -24 -builtin0 -transparent -memory high \
-    -nocycle -seconds -fg grey30 -geometry -5-5
 # Older configs:
+#+ I Exec exec xdaliclock -24 -builtin0 -transparent -memory high \
+#    -nocycle -seconds -fg grey30 -geometry -5-5
 #+ I Exec exec dbus-launch pidgin &
 #+ I Exec exec stalonetray --transparent --vertical --geometry 32x1-5+80 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
 #+ I Exec exec conky --alignment=bottom_left --double-buffer --daemonize \
@@ -198,12 +199,13 @@ AddToFunc InitFunction
 
 AddToFunc StartFunction
 + I Exec exec xsetroot -solid grey10
-+ I Exec exec xrandr --output DisplayPort-1 --mode "1440x900" --primary
 + I Exec exec feh --bg-scale ~/.fvwm/Pixmap/backgrounds/island-view1.jpg
 + I Exec exec xset r rate 175 60
++ I Exec exec ~/.fvwm/bin/check_xdaliclock.sh
 + I Module FvwmEvent
 + I Module FvwmPager 0 0
 
+#+ I Exec exec xrandr --output DisplayPort-1 --mode "1440x900" --primary
 #+ I Exec exec xrandr --output DisplayPort-0 --mode "1280x720" --scale 1.0 --above DisplayPort-1
 
 AddToFunc RestartFunction
@@ -214,10 +216,10 @@ AddToFunc RestartFunction
 DestroyFunc EWMHActivateWindowFunc
 AddToFunc EWMHActivateWindowFunc 
 + I Echo "Hey EWMH Activate $[w.id] happened, ktr."
-#+ I Iconify Off
-#+ I Focus
-#+ I Raise
-#+ I WarpToWindow 50 50
++ I Iconify Off
++ I Focus
++ I Raise
++ I WarpToWindow 50 50
 
 #that function gets called with the WindowList
 #that also assures the pointer will be at pos +80/+15 within the windows
@@ -241,6 +243,11 @@ AddToFunc MaximizeWarpTo
 + I FlipFocus
 + I Raise
 + I WarpToWindow +30p +30p
+
+DestroyFunc DeiconifyAndRearrange
+ AddToFunc DeiconifyAndRearrange
+  + C Iconify off
+  + C All (CurrentPage, Iconic) PlaceAgain Icon
 
 DestroyFunc ToggleConsole
 AddToFunc ToggleConsole
@@ -512,7 +519,7 @@ Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
         -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
         -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 2         R       A       Function FvwmExpose
-Mouse 3         R       A       Menu MainMenu
+Mouse 3         R       A       Exec exec rofi -show drun
 
 DestroyFunc PlainDecor
 AddToFunc PlainDecor
@@ -852,7 +859,8 @@ Key Space A    MS All (CurrentPage,!Fvwm*B*) Iconify on
 Key M WFS  4S Move 50-50w 50-50w
 Key M WFS  4  Maximize 0 100
 Key N WFS  4  Maximize 100 0
-Key C WFSI 4S Close
+Key C WFSI 4S Module FvwmConsole -g 48x9 -bg darkgreen -fg limegreen
+#Key C WFSI 4S Close
 
 
 # ktr - switching windows..
