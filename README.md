@@ -7,5 +7,9 @@
 
 ![Screenshot2](./Pixmap/ss3.png)
 
+Adding a toolbar, mostly for toggles, one menu and a terminal.
+
+![Screenshot2](./Pixmap/ss3.png)
+
 Have a great day!! \o/
 
