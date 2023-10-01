@@ -185,7 +185,7 @@ AddToFunc InitFunction
 + I Desk 0 0
 + I Exec exec xcompmgr -cCfF -t-5 -l-5 -r4.2 -o.55 -D6
 #    --config=$HOME/.fvwm/conkyrc
-+ I Exec exec stalonetray --transparent --vertical --geometry 31x1-5+5 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
++ I Exec exec stalonetray --transparent --vertical --geometry 31x1-42+5 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
 + I Exec exec copyq
@@ -205,6 +205,7 @@ AddToFunc StartFunction
 + I Exec exec ~/.fvwm/bin/check_xdaliclock.sh
 + I Module FvwmEvent
 + I Module FvwmPager 0 0
++ I Module FvwmButtons
 
 #+ I Exec exec xrandr --output DisplayPort-1 --mode "1440x900" --primary
 #+ I Exec exec xrandr --output DisplayPort-0 --mode "1280x720" --scale 1.0 --above DisplayPort-1
@@ -501,7 +502,7 @@ DestroyModuleConfig FvwmPager: *
 *FvwmPager: HilightColorset * 1
 *FvwmPager: Font none
 *FvwmPager: DeskTopScale 64
-*FvwmPager: Geometry 90x60-5+26
+*FvwmPager: Geometry 90x60-42+26
 *FvwmPager: Label 0 Pager
 *FvwmPager: SmallFont 5x7
 *FvwmPager: Columns 1
@@ -1003,6 +1004,56 @@ Style "HELPMENU" NoTitle
 ##          End of Key Commands       ##
 ##                                    ##
 ########################################
+
+
+########################################
+# MYYYYY BUTTONS !!!!
+#  - we get rid of -all the buttons-
+Style "FvwmButtons"        Icon toolbox.xpm, NoTitle, Sticky, WindowListSkip, CirculateSkip, StaysOnBottom, BorderWidth 0, HandleWidth 0
+
+DestoryModuleConfig FvwmButtons: *
+*FvwmButtons: Font        5x7
+*FvwmButtons: Back        black
+*FvwmButtons: Fore        green
+
+*FvwmButtons: Geometry    32x162-3+3
+*FvwmButtons: Rows        7
+
+*FvwmButtons: Columns     1
+*FvwmButtons: BoxSize     smart
+*FvwmButtons: Padding     0 0
+    
+*FvwmButtons: (1x1, Action beep, ActionIgnoresClientWindow, \
+  Swallow xeyes "Exec exec xeyes -fg yellow -bg brown -outline green -center black")
+*FvwmButtons: (1x1, Padding 0, Title "Mod",   \
+  Action `Menu MainMenu rectangle \
+  $widthx$height+$lleft+$top o+50 -100m`)
+
+*FvwmButtons: (1x1, Icon lock.png, Action `Exec xlock`)
+*FvwmButtons: (1x1, Icon calculator.png, Action `Exec xcalc`)
+*FvwmButtons: (1x1, Icon monitoring.png, Function ToggleAlacritty)
+*FvwmButtons: (1x1, Icon clock.png, Action `Exec gnome-clocks`)
+*FvwmButtons: (1x1, Icon terminal.png,     \
+  Action 'FvwmConsole -geometry 48x9+5-5 -bg darkgreen -fg limegreen')
+
+########## PANEL WinOps
+DestroyModuleConfig WinOps: *
+*WinOps: Back bisque2
+*WinOps: Geometry -3-3
+*WinOps: Columns 1
+
+*WinOps: (Title Resize, Icon resize.xpm,  Action Resize)
+*WinOps: (Title Move,   Icon arrows2.xpm, Action Move  )
+*WinOps: (Title Lower,  Icon Down,        Action Lower )
+*WinOps: (Title Raise,  Icon Up,          Action Raise )
+
+########## PANEL Tools
+DestroyModuleConfig Tools: *
+*Tools: Back bisque2
+*Tools: Geometry -1-1
+*Tools: Columns 1
+
+*Tools: (Title Kill,    Icon bomb.xpm,    Action Destroy)
 
 
 ################

@@ -27,3 +27,12 @@ quit
 quit
 quit
 ls
+Moddule FvwmButtons: MyButtons
+restart
+DestroyModuleConfig FvwmButtons: *
+DestroyModuleConfig FvwmButtons*
+KillModule FvwmButtons
+KillModule FvwmIconMan
+KillModule FvwmPager
+quit
+quit
