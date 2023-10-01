@@ -172,6 +172,7 @@ Style "stalonetray" NoTitle, BorderWidth 0, HandleWidth 0, !Maximizable, \
 Style "qemu-system-x86_64" StartsOnPage 1 0, InitialMapCommand Move 1 1
 Style "urxvt" BorderWidth 6, Handlewidth 6, MiniIcon linux.xpm, \
     Icon utilities-terminal.png, ManualPlacement
+Style "firefox*" !UsePPosition, Icon web-browser.png
 
 ###############
 ## Functions ##
@@ -181,28 +182,29 @@ Style "urxvt" BorderWidth 6, Handlewidth 6, MiniIcon linux.xpm, \
 AddToFunc InitFunction 
 + I Exec xscreensaver -no-splash &
 + I Desk 0 0
-+ I Exec exec xdaliclock -24 -builtin0 -transparent -memory high -nocycle -seconds \
-    -fg grey10 -geometry -0-0
-+ I Exec exec stalonetray --transparent --vertical --geometry 32x1-5+80 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
-+ I Exec exec nitrogen --restore
 + I Exec exec xcompmgr -cCfF -t-5 -l-5 -r4.2 -o.55 -D6
-+ I Exec exec conky --alignment=bottom_left --double-buffer --daemonize \
-    --config=$HOME/.fvwm/conkyrc
+#    --config=$HOME/.fvwm/conkyrc
++ I Exec exec stalonetray --transparent --vertical --geometry 31x1-5+5 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
 + I Exec exec copyq
++ I Exec exec xdaliclock -24 -builtin0 -transparent -memory high \
+    -nocycle -seconds -fg grey30 -geometry -5-5
+# Older configs:
 #+ I Exec exec dbus-launch pidgin &
-
-
+#+ I Exec exec stalonetray --transparent --vertical --geometry 32x1-5+80 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
+#+ I Exec exec conky --alignment=bottom_left --double-buffer --daemonize \
 # Start happens when restart
+
 AddToFunc StartFunction
 + I Exec exec xsetroot -solid grey10
-+ I Exec exec feh --bg-scale ~/.fvwm/Pixmap/backgrounds/eclipse9.jpg
++ I Exec exec xrandr --output DisplayPort-1 --mode "1440x900" --primary
++ I Exec exec feh --bg-scale ~/.fvwm/Pixmap/backgrounds/island-view1.jpg
 + I Exec exec xset r rate 175 60
-+ I PipeRead 'echo "DesktopSize 2x2 $[w.screen] size $[w.screen.width]x$[w.screen.height]"'
-+ I PipeRead 'echo "DesktopSize 2x2 $[w.screen] size $[w.screen.width]x$[w.screen.height]" > ~/FVWM-size.tst'
 + I Module FvwmEvent
 + I Module FvwmPager 0 0
+
+#+ I Exec exec xrandr --output DisplayPort-0 --mode "1280x720" --scale 1.0 --above DisplayPort-1
 
 AddToFunc RestartFunction
 + I All (Iconic) ReThumbnail
@@ -298,66 +300,12 @@ AddToFunc   PlayRadio $0
 + I Exec killall mpv
 + I Exec xterm -tn Radio +sb +ai \
         -fn 5x7 -tn Radio \
-        -geometry 40x4 -fg grey -bg rgb:29/18/12 \
         -T RADIO -e "mpv $0"
 
 DestroyFunc BombWindow
 AddToFunc   BombWindow
 + I Exec aplay -q .fvwm/sounds/siren_short.wav &
 + I Delete
-
-
-#####
-# Rss Reader
-# this requires perl RSS-XML
-# fedora: `dnf install perl-XML-RSS`
-###########
-DestroyFunc Slashdot-Rss
-AddToFunc Slashdot-Rss
-+ I DestroyMenu recreate Slashdot-Rss
-+ I AddToMenu Slashdot-Rss
-+ I PipeRead '$HOME/.fvwm/bin/fvwm-rss.pl http://slashdot.org/slashdot.rss surf'
-
-AddToMenu Slashdot-Rss
-+ DynamicPopupAction Function Craig-Rss
-
-DestroyFunc Craig-Rss
-AddToFunc Craig-Rss
-+ I DestroyMenu recreate Craig-Rss
-+ I AddToMenu Craig-Rss
-+ I PipeRead '~/.fvwm/bin/fvwm-rss.pl http://slashdot.org/slashdot.rss surf'
-
-AddToMenu Craig-Rss
-+ DynamicPopupAction Function Craig-Rss
-
-
-
-######
-# fvwm-menu-headlines
-#########################
-DestroyFunc FuncFvwmMenuHeadlines
-AddToFunc   FuncFvwmMenuHeadlines
-+ I PipeRead `fvwm-menu-headlines --frontpage --site $0 --exec="surf '%u'"`
-#+ I Schedule 900000 DestroyMenu $0  # reset generated menu in 15 minutes
-
-DestroyMenu MenuHeadlines
-AddToMenu   MenuHeadlines "Headlines" Title
-+ "Gimp"	Exec exec gimp
-+ MissingSubmenuFunction FuncFvwmMenuHeadlines
-+ "FreshMeat"  Popup freshmeat
-+ "Slashdot"   Popup slashdot
-+ "LinuxToday" Popup linuxtoday
-+ "GNOME News" Popup gnome-news
-+ "KDE News"   Popup kde-news
-+ "" Nop
-+ "Reset all"  FuncResetHeadlines
-
-DestroyFunc FuncResetHeadlines
-AddToFunc   FuncResetHeadlines
-+ I DestroyMenu freshmeat
-+ I DestroyMenu linuxtoday
-+ I DestroyMenu slashdot
-+ I DestroyMenu gnome-news
 
 ## ktr - this should go closer to where the MENU's are!
 DestroyFunc FuncFvwmMenuDirectory
@@ -545,7 +493,7 @@ DestroyModuleConfig FvwmPager: *
 *FvwmPager: HilightColorset * 1
 *FvwmPager: Font none
 *FvwmPager: DeskTopScale 64
-*FvwmPager: Geometry 90x60-5+5
+*FvwmPager: Geometry 90x60-5+26
 *FvwmPager: Label 0 Pager
 *FvwmPager: SmallFont 5x7
 *FvwmPager: Columns 1
@@ -560,13 +508,11 @@ DestroyModuleConfig FvwmPager: *
 
 
 # Keys for the Root Window
-Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x11 
+Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
+        -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
+        -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu MainMenu
-# -fade 50 \
-# -fadeColor black \
-# -fadeTint white \
-# -title "urxvt no tmux"
 
 DestroyFunc PlainDecor
 AddToFunc PlainDecor
@@ -668,13 +614,14 @@ AddToMenu "MainMenu" "[o]== Programs ==[o]" title
 + "  =Local gui Programs!=" Popup ProgMenu
 + "" Nop
 + "" Nop
-+ "  =Headlines="%news.png% Popup MenuHeadlines
++ "  Backdrops Menu"              Popup My-Backdrops
++ "  Decors"%mini/mini.eye2.xpm%  Popup My-Decors
 + "" Nop
-+    "Backdrops Menu"              Popup My-Backdrops
-+    "Decors"%mini/mini.eye2.xpm%          Popup My-Decors
++ "  Console"%mini/mini.term.xpm% Module FvwmConsole \
+        -g 46x6 \
+        -bg darkgreen \
+        -fg limegreen
 + "" Nop
-+ "" Nop
-+ "Restart FVWM!"%restart.png% Restart
 + "-LOCK THE SCREEN-"%lock.png% Exec exec xscreensaver-command -lock
 + "" Nop
 ################################
@@ -984,6 +931,7 @@ AddToFunc HELPMENU
 + I *HELPMENU: ItemColorset 9
 + I *HELPMENU: Line center
 + I *HELPMENU: Line center
++ I *HELPMENU: Text "=-=-=-=-=-=-=-= PROGRAMS TO RUN =-=-=-=-=-=-=-="
 + I *HELPMENU: Text "=-=-=-=-=-=-=-= PROGRAMS TO RUN =-=-=-=-=-=-=-="
 + I *HELPMENU: Line center
 + I *HELPMENU: Line center
