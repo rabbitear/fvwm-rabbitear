@@ -5,4 +5,7 @@
 
 [Notes](./dev/Notes.md) on compiling on Fedora, and maybe some other notes too.
 
+![Screenshot2](./Pixmap/ss3.png)
+
+Have a great day!! \o/
 
