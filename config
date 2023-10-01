@@ -1043,7 +1043,7 @@ DestoryModuleConfig FvwmButtons: *
 
 *FvwmButtons: (1x1, Icon terminal.png, Action 'Function ToggleAlacritty')
 *FvwmButtons: (1x1, Icon clock.png, Action `Exec gnome-clocks &`)
-*FvwmButtons: (1x1, Icon lock.png, Action `Exec xlock`)
+*FvwmButtons: (1x1, Icon help.png, Action `Exec xlock`)
 
 ########## PANEL WinOps
 DestroyModuleConfig WinOps: *
