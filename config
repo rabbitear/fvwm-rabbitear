@@ -21,7 +21,10 @@
 ImagePath $HOME/.fvwm/Pixmap/my-icons:$HOME/.fvwm/Pixmap/wm-icons/22x22-gartoon:$HOME/.fvwm/Pixmap/wm-icons/14x14-general:$HOME/.fvwm/Pixmap/my-icons:$HOME/.fvwm/Pixmap/window-images/
 ClickTime 550
 EwmhBaseStruts 0 128 0 0
-DesktopSize     2x2
+# Hooked up to the TV, so the other 4 Pages are getting in the way with
+# the two monitors, so 1x1
+#DesktopSize     2x2
+DesktopSize     1x1
 EdgeScroll      100 100
 EdgeThickness 2
 EdgeResistance 250
@@ -183,6 +186,7 @@ AddToFunc InitFunction
     --config=$HOME/.fvwm/conkyrc
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
++ I Exec exec copyq
 #+ I Exec exec dbus-launch pidgin &
 
 
