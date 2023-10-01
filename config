@@ -256,6 +256,15 @@ AddToFunc ToggleConsole
 + I All (FvwmConsole) Close
 + I TestRc (NoMatch) Module FvwmConsole -g 30x6+10-10 -fn 5x8 +sb -terminal xterm -bg midnightblue -fg yellow
 
+Style "FvwmConsole" NoTitle, BorderWidth 0, HandleWidth 0, StaysOnTop, Sticky, \
+    WindowListSkip, !Maximizable, !Iconifiable
+DestroyFunc ToggleConsoleTop
+AddToFunc ToggleConsoleTop
++ I All (FvwmConsole) Close
++ I TestRc (NoMatch) Module FvwmConsole -g 46x7+5+5 -fn "xft:Sans:size=11" +sb -terminal urxvt -bg darkgreen -fg limegreen
+
+
+
 DestroyFunc ToggleAlacritty
 AddToFunc ToggleAlacritty
 + I All (Alacritty) Iconify Off
@@ -1017,7 +1026,7 @@ DestoryModuleConfig FvwmButtons: *
 *FvwmButtons: Fore        green
 
 *FvwmButtons: Geometry    32x162-3+3
-*FvwmButtons: Rows        7
+*FvwmButtons: Rows        6
 
 *FvwmButtons: Columns     1
 *FvwmButtons: BoxSize     smart
@@ -1025,16 +1034,16 @@ DestoryModuleConfig FvwmButtons: *
     
 *FvwmButtons: (1x1, Action beep, ActionIgnoresClientWindow, \
   Swallow xeyes "Exec exec xeyes -fg yellow -bg brown -outline green -center black")
-*FvwmButtons: (1x1, Padding 0, Title "Mod",   \
+*FvwmButtons: (1x1, Padding 0, Title "MENU",   \
   Action `Menu MainMenu rectangle \
   $widthx$height+$lleft+$top o+50 -100m`)
+*FvwmButtons: (1x1, Swallow "xload", `Exec xload -bg black -fg darkgreen \
+  -update 1 -nolabel -hl limegreen -jumpscroll 1 &`, \
+  Action 'Function ToggleConsoleTop') 
 
+*FvwmButtons: (1x1, Icon terminal.png, Action 'Function ToggleAlacritty')
+*FvwmButtons: (1x1, Icon clock.png, Action `Exec gnome-clocks &`)
 *FvwmButtons: (1x1, Icon lock.png, Action `Exec xlock`)
-*FvwmButtons: (1x1, Icon calculator.png, Action `Exec xcalc`)
-*FvwmButtons: (1x1, Icon monitoring.png, Function ToggleAlacritty)
-*FvwmButtons: (1x1, Icon clock.png, Action `Exec gnome-clocks`)
-*FvwmButtons: (1x1, Icon terminal.png,     \
-  Action 'FvwmConsole -geometry 48x9+5-5 -bg darkgreen -fg limegreen')
 
 ########## PANEL WinOps
 DestroyModuleConfig WinOps: *

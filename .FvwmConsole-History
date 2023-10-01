@@ -36,3 +36,4 @@ KillModule FvwmIconMan
 KillModule FvwmPager
 quit
 quit
+echo
