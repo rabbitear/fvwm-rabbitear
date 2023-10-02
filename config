@@ -871,7 +871,7 @@ Key M WFS  4S Move 50-50w 50-50w
 Key M WFS  4  Maximize 0 100
 Key N WFS  4  Maximize 100 0
 Key C WFSI 4S Module FvwmConsole -g 48x9 -bg darkgreen -fg limegreen
-#Key C WFSI 4S Close
+Key Q WFSI 4S Close
 
 
 # ktr - switching windows..
@@ -925,7 +925,8 @@ Key Y A 4  Exec exec flameshot gui -p $HOME/Pictures/screenshots
 Key Y A 4S Exec exec flameshot full -p $HOME/Pictures/screenshots
 
 # Toggle apps
-Key Return A 4  Function ToggleAlacritty
+# ktr - Alt-Enter will be for notes, Super-Enter is too close.
+#Key Return A 4  Function ToggleAlacritty
 Key Return A 4S Function ToggleURxvt
 Key F      A 4  Function ToggleFirefox
 Key F      A 4S Function ToggleFirefox
@@ -1037,13 +1038,14 @@ DestoryModuleConfig FvwmButtons: *
 *FvwmButtons: (1x1, Padding 0, Title "MENU",   \
   Action `Menu MainMenu rectangle \
   $widthx$height+$lleft+$top o+50 -100m`)
-*FvwmButtons: (1x1, Swallow "xload", `Exec xload -bg black -fg darkgreen \
+*FvwmButtons: (1x1, Swallow "xload", `Exec xload -bg black \
+  -fg rgb:62/65/44 \
   -update 1 -nolabel -hl limegreen -jumpscroll 1 &`, \
   Action 'Function ToggleConsoleTop') 
 
 *FvwmButtons: (1x1, Icon terminal.png, Action 'Function ToggleAlacritty')
 *FvwmButtons: (1x1, Icon clock.png, Action `Exec gnome-clocks &`)
-*FvwmButtons: (1x1, Icon help.png, Action `Exec xlock`)
+*FvwmButtons: (1x1, Icon lock.xpm, Action `Exec xlock`)
 
 ########## PANEL WinOps
 DestroyModuleConfig WinOps: *
