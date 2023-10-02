@@ -530,7 +530,7 @@ Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
         -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
         -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 2         R       A       Function FvwmExpose
-Mouse 3         R       A       Exec exec rofi -show drun
+Mouse 3         R       A       Menu QuickProgram mouse c c
 
 DestroyFunc PlainDecor
 AddToFunc PlainDecor
@@ -642,6 +642,23 @@ AddToMenu "MainMenu" "[o]== Programs ==[o]" title
 + "" Nop
 + "-LOCK THE SCREEN-"%lock.png% Exec exec xscreensaver-command -lock
 + "" Nop
+####################
+# QuickProgram - Right Mouse button on the desk.
+AddToMenu "QuickProgram" "" Title
++ "" Nop
++ "Run [programs]"%game.png% Exec exec rofi -show drun
++ "ddgr"%viewer.png% Exec exec rofi \
+            -show ddgrsearch \
+            -lines 5 \
+            -eh 3 \
+            -modi "ddgrsearch:$HOME/.fvwm/bin/ddgr_search.py" \
+            -theme-str 'window {height: 80%; width: 80%;}' 
++ "File(s)"%file.png% Exec exec ~/.fvwm/bin/nautilus-is-directory.sh
++ "Timers"%clock.png% Exec exec gnome-clocks
++ "[lock] the screen"%lock.xpm%Exec exec xscreensaver-command -lock
++ "" Nop 
++ "" Nop
+
 ################################
 # RADIO/AUDIO menu (key MOD-R)
 # ktr - this one is good.
