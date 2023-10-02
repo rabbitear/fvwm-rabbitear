@@ -172,7 +172,7 @@ Style "stalonetray" NoTitle, BorderWidth 0, HandleWidth 0, !Maximizable, \
     !Iconifiable, NeverFocus, WindowListSkip, StaysOnBottom
 Style "qemu-system-x86_64" StartsOnPage 1 0, InitialMapCommand Move 1 1
 Style "urxvt" BorderWidth 6, Handlewidth 6, MiniIcon linux.xpm, \
-    Icon utilities-terminal.png, ManualPlacement
+    Icon utilities-terminal.png, PositionPlacement UnderMouse
 Style "firefox*" !UsePPosition, Icon web-browser.png
 
 ###############
