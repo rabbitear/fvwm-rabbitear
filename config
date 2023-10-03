@@ -543,7 +543,7 @@ Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
         -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu QuickProgram mouse c c
-Mouse 3         R       4       WindowList mouse c c
+Mouse 3         R       4       Function QuickProgramClearDesktop
 Mouse 3         R       C       WindowList mouse c c
 Mouse 3         R       M       WindowList mouse c c
 
@@ -574,12 +574,6 @@ AddToFunc SwitchDecor
 + I Module FvwmPager 0 1
 + I Module FvwmButtons
 
-AddToFunc CreateBackdropMenu
-+ I PipeRead "fvwm-menu-directory -d '$0' -exec-file '^Esetroot -scale '"
-
-AddToMenu My-Backdrops
-+ MissingSubmenuFunction CreateBackdropMenu
-+ "Backdrops" Popup $[HOME]/.fvwm/Pixmap/backgrounds
 ##################################
 ## not used is from theme fvwm
 ##
@@ -637,33 +631,58 @@ Read menudefs.hook Quiet
 
 ####################
 # QuickProgram - Right Mouse button on the desk.
+DestroyMenu "QuickProgram"
 AddToMenu "QuickProgram" "" Title
 + "" Nop
-+ "Firefox"%www.xpm% Function ToggleFirefox
-+ "Steam"%steam.png% Function ToggleSteam
++ "Firefox"%www.png% Function ToggleFirefox
++ "Steam"%game.png% Function ToggleSteam
 + "" Nop
 + "" Nop
-+ "Run [programs]"%game.png% Exec exec rofi -show drun
++ "  -=<<< Programs >>>=-"%utility.xpm% Popup XDGMenu PipeRead 'fvwm-menu-desktop'
++ "  Run [rofi-drun]"%window-stick.xpm% Exec exec rofi -show drun
++ "" Nop
++ "" Nop
 + "ddgr (search)"%viewer.png% Exec exec rofi \
             -show ddgrsearch \
             -lines 5 \
             -eh 3 \
             -modi "ddgrsearch:$HOME/.fvwm/bin/ddgr_search.py" \
             -theme-str 'window {height: 80%; width: 80%;}' 
-+ "File(s)"%file.png% Exec exec ~/.fvwm/bin/nautilus-is-directory.sh
++ "(Files -+- Images)"%file.png% Exec exec ~/.fvwm/bin/nautilus-is-directory.sh
 + "Timers"%clock.png% Exec exec gnome-clocks
-+ "|CLEAR| Desktop Icons"%xv.png% All (CurrentPage, !Iconic) Function Thumbnail $0
++ "" Nop
++ "" Nop
++ "  |CLEAR| desktop"%xv.png% All (CurrentPage, !Iconic) Function Thumbnail $0
++ "" Nop
++ "" Nop
 + "Alacritty"%terminal.png% Function ToggleAlacritty
 + "FvwmConsole"%mini/mini.term.xpm% Module FvwmConsole \
         -g 46x6 \
         -bg darkgreen \
         -fg limegreen
-+ "Theme(s)"%themes.png% Menu My-Backdrops mouse c c
++ "" Nop
++ "" Nop
++ MissingSubmenuFunction CreateBackdropMenu
++ "  -=<<< tHeMe(S) >>>=-"%themes.png% Popup $[HOME]/.fvwm/Pixmap/backgrounds
++ "" Nop
++ "" Nop
 + "Radio Garden"%music.png% Exec exec surf https://radio.garden
-+ "SimpleScreenRecorder"%terminal-special.png% Exec exec simplescreenrecorder
-+ "[lock] display screensaver"%lock.xpm% Exec exec xscreensaver-command -lock
++ "SimpleScreenRecorder"%video.xpm% Exec exec simplescreenrecorder
++ "   [LOCK!] goto -=> screensaver"%lock.xpm% Exec exec xscreensaver-command -lock
 + "" Nop 
 + "" Nop
+
+AddToMenu XDGMenu "XDGMenu" Title
++ DynamicPopUpAction PipeRead 'fvwm-menu-desktop'
+    --dynamic --include-items config'
++ DynamicPopDownAction DestroyMenu recreate XDGMenu
+
+AddToFunc CreateBackdropMenu
++ I PipeRead "fvwm-menu-directory -d '$0' -exec-file '^Esetroot -scale '"
+
+AddToMenu My-Backdrops
++ MissingSubmenuFunction CreateBackdropMenu
++ "Backdrops" Popup $[HOME]/.fvwm/Pixmap/backgrounds
 
 ################################
 # RADIO/AUDIO menu (key MOD-R)
@@ -772,7 +791,13 @@ AddToFunc MoveOrRaiseOrLowerFunc
 DestroyFunc WheelToggleShade
 AddToFunc WheelToggleShade D WindowShade $0
 
+DestroyFunc QuickProgramClearDesktop
+AddToFunc QuickProgramClearDesktop
++ I All (CurrentPage, !Iconic) Function Thumbnail $0
++ I Menu QuickProgram root c c
 
+# maybe use this instead of WindowShade...
+#+ I All (CurrentPage, !Iconic) WindowShade
 #-------------------------------------------------------------------------------
 #- mouse defs
 #-------------------------------------------------------------------------------
