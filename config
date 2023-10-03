@@ -543,6 +543,9 @@ Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
         -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu QuickProgram mouse c c
+Mouse 3         R       4       WindowList mouse c c
+Mouse 3         R       C       WindowList mouse c c
+Mouse 3         R       M       WindowList mouse c c
 
 DestroyFunc PlainDecor
 AddToFunc PlainDecor
@@ -656,7 +659,7 @@ AddToMenu "QuickProgram" "" Title
         -bg darkgreen \
         -fg limegreen
 + "Theme(s)"%themes.png% Menu My-Backdrops mouse c c
-+ "Radio"%music.png% Menu RadioMenu mouse c c
++ "Radio Garden"%music.png% Exec exec surf https://radio.garden
 + "SimpleScreenRecorder"%terminal-special.png% Exec exec simplescreenrecorder
 + "[lock] display screensaver"%lock.xpm% Exec exec xscreensaver-command -lock
 + "" Nop 
@@ -665,6 +668,8 @@ AddToMenu "QuickProgram" "" Title
 ################################
 # RADIO/AUDIO menu (key MOD-R)
 # ktr - this one is good.
+# ktr - oct2, RadioMenu not used yet.
+#       in the future, we'll put in presets.
 AddToMenu "RadioMenu" " \o/ Radio \o/ " title
 + "TunaPie!"%sound1-32x32.png% Exec exec tunapie
 + "MPD PLAYLIST"%sound.png% Exec exec xterm -fn 8x8 -bg midnightblue \
