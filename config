@@ -186,19 +186,14 @@ AddToFunc InitFunction
 + I Exec xscreensaver -no-splash &
 + I Desk 0 0
 + I Exec exec xcompmgr -cCfF -t-5 -l-5 -r4.2 -o.55 -D6
-#    --config=$HOME/.fvwm/conkyrc
 + I Exec exec stalonetray --transparent --vertical --geometry 31x1-5+5 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
 + I Exec exec copyq
-# Older configs:
-#+ I Exec exec xdaliclock -24 -builtin0 -transparent -memory high \
-#    -nocycle -seconds -fg grey30 -geometry -5-5
-#+ I Exec exec dbus-launch pidgin &
-#+ I Exec exec stalonetray --transparent --vertical --geometry 32x1-5+80 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
 #+ I Exec exec conky --alignment=bottom_left --double-buffer --daemonize \
-# Start happens when restart
+#    --config=$HOME/.fvwm/conkyrc
 
+# Start happens when restart
 AddToFunc StartFunction
 + I Exec exec xsetroot -solid grey10
 + I Exec exec feh --bg-scale ~/.fvwm/Pixmap/backgrounds/island-view1.jpg
@@ -762,12 +757,13 @@ DestroyMenu WindowOptionsMenu
 AddToMenu WindowOptionsMenu 
 + " Help Page  %help.xpm%"              HELPMENU
 + "" Nop
-+ " Iconify    %window-iconify.xpm%"	   Module Thumbnail
-+ " Ident      %window-identify.xpm%"      Module FvwmIdent
-+ " ScreenShot %camera.xpm%"	Function WindowScreenshot
++ " Iconify    %window-iconify.xpm%"    Module Thumbnail
++ " Ident      %window-identify.xpm%"   Module FvwmIdent
++ " Stick      %window-stick.xpm%"      Stick
++ " ScreenShot %camera.xpm%"        	Function WindowScreenshot
 + "" Nop
-+ " Close     %window-delete.xpm%"        Delete
-+ " Kill      %window-destroy.xpm%"       Destroy
++ " Close     %window-delete.xpm%"      Delete
++ " Kill      %window-destroy.xpm%"     Destroy
 + "" Nop
 
 

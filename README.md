@@ -11,5 +11,9 @@ Adding a toolbar, mostly for toggles, one menu and a terminal.
 
 ![Screenshot3](./Pixmap/ss4.png)
 
+Coffee in the morning is goood!
+
+![Screenshot4](./Pixmap/ss5.png)
+
 Have a great day!! \o/
 
