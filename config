@@ -43,6 +43,7 @@ Style * EdgeMoveResistance 450
 ##################
 Colorset 0 fg burlywood, bg #66594b, TiledPixmap buttons/rock-beige.xpm, Tint
 Colorset 1 fg burlywood1, bg #71513E, TiledPixmap buttons/rock-ruddy.xpm, Tint
+Colorset 90 Transparent
 
 AddToDecor "stoneage" BorderStyle -- !NoInset
 AddToDecor "stoneage" BorderStyle -- HiddenHandles
@@ -109,9 +110,6 @@ Style * HilightIconTitleColorset 1
 *FvwmPager: HilightColorset * 1
 # the taskbar isn't in this theme.
 Style "FvwmTaskBar" Sticky, NoTitle, NoHandles, BorderWidth 4, HandleWidth 4, WindowListSkip
-#Style "FvwmPager" Sticky, NoTitle, NoHandles, BorderWidth 5, HandleWidth 5, WindowListSkip
-#Style "FvwmPager" Sticky, NoTitle, BorderWidth 5, HandleWidth 5, WindowListSkip, \
-#    NeverFocus
 
 
 #########################
@@ -132,11 +130,15 @@ Style * SmartPlacement, CleverPlacement
 # Fvwm Appish/Modules Styles
 Style "FvwmWinList"     NoTitle
 Style "*Dialog_popup" WindowListSkip
-Style "FvwmConsole" StaysOnTop, Sticky, Title, WindowListSkip, \
-	!Handles, BorderWidth 12
+Style "FvwmConsole" StaysOnTop, Sticky, BorderWidth 4, HandleWidth 4,
+    PositionPlacement UnderMouse, StaysOnTop, !Iconifiable
 Style "FvwmPager" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
     CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable, \
     !Closable, !NeverFocus
+Style "FvwmButtons" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
+    CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable, \
+    !Closable, !NeverFocus, Colorset 90
+
 
 
 #####################
@@ -185,7 +187,7 @@ AddToFunc InitFunction
 + I Desk 0 0
 + I Exec exec xcompmgr -cCfF -t-5 -l-5 -r4.2 -o.55 -D6
 #    --config=$HOME/.fvwm/conkyrc
-+ I Exec exec stalonetray --transparent --vertical --geometry 31x1-42+5 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
++ I Exec exec stalonetray --transparent --vertical --geometry 31x1-5+5 --grow-gravity S --icon-gravity NE --icon-size=16 --kludges=force_icons_size
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
 + I Exec exec copyq
@@ -205,8 +207,11 @@ AddToFunc StartFunction
 + I Exec exec ~/.fvwm/bin/check_xdaliclock.sh
 + I Module FvwmEvent
 + I Module FvwmPager 0 0
-+ I Module FvwmButtons
 
+# not minimalist :(
+#+ I Module FvwmButtons
+
+# use these when hooking up the TV to hdmi.
 #+ I Exec exec xrandr --output DisplayPort-1 --mode "1440x900" --primary
 #+ I Exec exec xrandr --output DisplayPort-0 --mode "1280x720" --scale 1.0 --above DisplayPort-1
 
@@ -256,8 +261,6 @@ AddToFunc ToggleConsole
 + I All (FvwmConsole) Close
 + I TestRc (NoMatch) Module FvwmConsole -g 30x6+10-10 -fn 5x8 +sb -terminal xterm -bg midnightblue -fg yellow
 
-Style "FvwmConsole" NoTitle, BorderWidth 0, HandleWidth 0, StaysOnTop, Sticky, \
-    WindowListSkip, !Maximizable, !Iconifiable
 DestroyFunc ToggleConsoleTop
 AddToFunc ToggleConsoleTop
 + I All (FvwmConsole) Close
@@ -288,6 +291,15 @@ AddToFunc ToggleFirefox
 + I All (firefox) Raise
 + I All (firefox) WarpToWindow +200p +90p
 + I TestRc (NoMatch) Exec exec firefox
+
+DestroyFunc ToggleSteam
+AddToFunc ToggleSteam
++ I All (steam) Iconify Off
++ I All (steam) Focus
++ I All (steam) Raise
++ I All (steam) WarpToWindow +200p +90p
++ I TestRc (NoMatch) Exec exec steam
+
 
 ## ktr - use this later for pidgin and cheese.
 ##       gimp, firefox, rox all look for current running ps.
@@ -511,7 +523,7 @@ DestroyModuleConfig FvwmPager: *
 *FvwmPager: HilightColorset * 1
 *FvwmPager: Font none
 *FvwmPager: DeskTopScale 64
-*FvwmPager: Geometry 90x60-42+26
+*FvwmPager: Geometry 90x60-5+26
 *FvwmPager: Label 0 Pager
 *FvwmPager: SmallFont 5x7
 *FvwmPager: Columns 1
@@ -607,9 +619,9 @@ AddToMenu Fractal-Decors "Fractal Decors" Title
 
 # Styles for these Menus
 DestroyMenuStyle "*" 
-MenuStyle "*" BorderWidth 0, Foreground $[COLOR], \
+MenuStyle "*" BorderWidth 4, Foreground $[COLOR], \
 	background blue, HilightBack lightbrown, TitleFont "xft:Swift-18", \
-	Hilight3DOff, Font "xft:JunkYard-15", \
+	Hilight3DOff, Font "xft:JunkYard-12", \
 	ActiveFore blue, MenuFace VGradient 128 midnightblue black
 
 ######
@@ -619,35 +631,17 @@ MenuStyle "*" BorderWidth 0, Foreground $[COLOR], \
 # ktr - I don't use this here.. maybe later?
 Read /etc/X11/fvwm/menudefs.hook Quiet
 Read menudefs.hook Quiet
-#################################
-# Main Program Menu (key MOD-P)
-# ktr - the main menu is not used anymore
-#     - all the functionally of this is in the keyboard.
-DestroyMenu "MainMenu"
-AddToMenu "MainMenu" "[o]== Programs ==[o]" title
-+ "" Nop
-+ "" Nop
-+ "" Nop
-+ "  =Web Sites="%www.png% Popup WebMenu
-+ "  =Local gui Programs!=" Popup ProgMenu
-+ "" Nop
-+ "" Nop
-+ "  Backdrops Menu"              Popup My-Backdrops
-+ "  Decors"%mini/mini.eye2.xpm%  Popup My-Decors
-+ "" Nop
-+ "  Console"%mini/mini.term.xpm% Module FvwmConsole \
-        -g 46x6 \
-        -bg darkgreen \
-        -fg limegreen
-+ "" Nop
-+ "-LOCK THE SCREEN-"%lock.png% Exec exec xscreensaver-command -lock
-+ "" Nop
+
 ####################
 # QuickProgram - Right Mouse button on the desk.
 AddToMenu "QuickProgram" "" Title
 + "" Nop
++ "Firefox"%www.xpm% Function ToggleFirefox
++ "Steam"%steam.png% Function ToggleSteam
++ "" Nop
++ "" Nop
 + "Run [programs]"%game.png% Exec exec rofi -show drun
-+ "ddgr"%viewer.png% Exec exec rofi \
++ "ddgr (search)"%viewer.png% Exec exec rofi \
             -show ddgrsearch \
             -lines 5 \
             -eh 3 \
@@ -655,7 +649,16 @@ AddToMenu "QuickProgram" "" Title
             -theme-str 'window {height: 80%; width: 80%;}' 
 + "File(s)"%file.png% Exec exec ~/.fvwm/bin/nautilus-is-directory.sh
 + "Timers"%clock.png% Exec exec gnome-clocks
-+ "[lock] the screen"%lock.xpm%Exec exec xscreensaver-command -lock
++ "|CLEAR| Desktop Icons"%xv.png% All (CurrentPage, !Iconic) Function Thumbnail $0
++ "Alacritty"%terminal.png% Function ToggleAlacritty
++ "FvwmConsole"%mini/mini.term.xpm% Module FvwmConsole \
+        -g 46x6 \
+        -bg darkgreen \
+        -fg limegreen
++ "Theme(s)"%themes.png% Menu My-Backdrops mouse c c
++ "Radio"%music.png% Menu RadioMenu mouse c c
++ "SimpleScreenRecorder"%terminal-special.png% Exec exec simplescreenrecorder
++ "[lock] display screensaver"%lock.xpm% Exec exec xscreensaver-command -lock
 + "" Nop 
 + "" Nop
 
@@ -712,72 +715,6 @@ AddToMenu "RadioMenu" " \o/ Radio \o/ " title
 + "" Nop
 + "Sound Recorder"%sound.xpm% Exec exec gnome-sound-recorder
 + "" Nop
-######################################
-# Browsers (popup from the MainMenu)
-# ktr - this needs to be cleaned up alittle
-AddToMenu WebMenu "=-=-= BOOKMARKS =-=-=" title
-+ "" Nop
-+ " Chromium"%chromium-32x32.png% Exec exec chromium
-+ " Firefox"%firefox-32x32.png% Exec exec firefox
-+ "" Nop
-+ "Clipboard:Google/Youtube"%google-32x32.png% exec exec ~/.fvwm/bin/surf-google.sh
-+ "My LOOKUP!"%dict.png% Exec exec ~/.fvwm/bin/clipboard-lookup
-+ "" Nop
-+ "" Nop
-+ "craigslist.com"%craigslist-32x32.png% exec exec surf -s -p http://anchorage.craigslist.com
-+ "programming-motherfucker" exec exec surf -s -p http://programming-motherfucker.com/
-+ "hackerne.we"%hackerne.we.png% exec exec surf -p -s http://hackerne.ws/
-+ "torrentz.eu"%torrentz.png% exec exec surf -p -s http://torrentz.eu/
-+ "projecteuler.net" exec exec surf -p -s http://projecteuler.net/
-+ "" Nop
-+ "" Nop
-
-+ "fvwm FAQ" Exec exec http://fvwm.org/documentation/faq/
-+ "fvwm forums" Exec exec http://fvwmforums.org/
-+ "linux.byexamples" exec exec surf -p -s http://linux.byexamples.com/
-+ "DJango Book 2.0" exec exec surf -p -s http://www.djangobook.com/en/2.0/
-+ "" Nop
-+ "" Nop
-+ "" Nop "  j.o.b.s.  " title
-+ "www.careers.ch2m.com"%jobs.png% Exec surf -p -s http://www.careers.ch2m.com
-+ "www.jobs.state.ak.us"%jobs.png% Exec surf -p -s http://www.jobs.state.ak.us/
-+ "" Nop
-+ "" Nop
-+ "Git Wiki FAQs"%git1.png% exec exec surf -s -p https://git.wiki.kernel.org/index.php/GitFaq
-+ "Everyday Git"%git2.png% exec exec surf -s -p http://www.kernel.org/pub/software/scm/git/docs/everyday.html#Repository%20Administration
-+ "" Nop
-+ "" Nop
-+ "create social networking site" exec exec surf -p -s http://uswaretech.com/blog/2009/03/create-a-new-social-networking-site-in-few-hours-using-pinax-platform-django/
-AddToMenu GamesMenu " ==== GAMES ==== " title
-+ "" Nop
-+ "powermanga" exec exec powermanga
-+ "xpenguins" exec exec xpenguins
-+ "penguin-command" exec exec penguin-command
-+ "wesnoth" exec exec wesnoth
-+ "wormux" exec exec wormux
-+ "pingus" exec exec pingus
-+ "lincity-ng" exec exec lincity-ng
-+ "freeciv" exec exec freeciv
-+ "" Nop
-######################################
-# Programs (popup from the MainMenu)
-#
-AddToMenu ProgMenu " =-=-= Programs! =-=-= " title
-+ "The HELP Page" HELPMENU
-+ "" Nop
-+ "  SimpleScreenRecorder" Exec exec simplescreenrecorder
-+ "  KDenLive" Exec exec kdenlive
-+ "" Nop
-+ "  Spotify" Exec exec spotify
-+ "  Discord" Exec exec discord
-+ "  Steam" Exec exec steam
-+ "" Nop
-+ "  CHEESE!" Exec exec cheese
-+ "" Nop
-+ "  Pidgin" Exec exec dbus-launch pidgin
-+ "" Nop
-+ "=Games Menu=" Popup GamesMenu
-
 
 #################################
 # Volume Control (key is MOD-V)
@@ -881,8 +818,8 @@ Key Space WIFS 4  Function Thumbnail
 Key Space A    4S All (CurrentPage,!Fvwm*B*) Iconify on
 Key I WIFS     4  Function Thumbnail
 Key I A        4S All (CurrentPage,!Fvwm*B*) Function Thumbnail
-Key Space WIFS M  Function Thumbnail
 Key Space A    MS All (CurrentPage,!Fvwm*B*) Iconify on
+Key Space WIFS M  Function Thumbnail
 
 Key M WFS  4S Move 50-50w 50-50w
 Key M WFS  4  Maximize 0 100
@@ -956,7 +893,7 @@ Key L A  4S Exec xscreensaver-command -0lock
 Key P A  4  HELPMENU
 Key O A  4  HELPMENU
 Key Z A  4  HELPMENU
-Key F1 A N  HELPMENU
+Key H A  4  HELPMENU
 Key MENU A N HELPMENU
 
 DestroyFunc HELPMENU
@@ -968,7 +905,6 @@ AddToFunc HELPMENU
 + I *HELPMENU: ItemColorset 9
 + I *HELPMENU: Line center
 + I *HELPMENU: Line center
-+ I *HELPMENU: Text "=-=-=-=-=-=-=-= PROGRAMS TO RUN =-=-=-=-=-=-=-="
 + I *HELPMENU: Text "=-=-=-=-=-=-=-= PROGRAMS TO RUN =-=-=-=-=-=-=-="
 + I *HELPMENU: Line center
 + I *HELPMENU: Line center
@@ -985,8 +921,6 @@ AddToFunc HELPMENU
 + I *HELPMENU: Text "MOD+R  :  Net RADIO Stations"
 + I *HELPMENU: Line center
 + I *HELPMENU: Text "MOD+V  :  VOLUME Control"
-+ I *HELPMENU: Line center
-+ I *HELPMENU: Text "MOD+[Shift]+B  :  BOOKMARKS and programs"
 + I *HELPMENU: Line center
 + I *HELPMENU: Line center
 + I *HELPMENU: Line center
@@ -1036,33 +970,30 @@ Style "HELPMENU" NoTitle
 ########################################
 # MYYYYY BUTTONS !!!!
 #  - we get rid of -all the buttons-
-Style "FvwmButtons"        Icon toolbox.xpm, NoTitle, Sticky, WindowListSkip, CirculateSkip, StaysOnBottom, BorderWidth 0, HandleWidth 0
 
 DestoryModuleConfig FvwmButtons: *
 *FvwmButtons: Font        5x7
-*FvwmButtons: Back        black
-*FvwmButtons: Fore        green
+*FvwmButtons: Colorset    90
 
-*FvwmButtons: Geometry    32x162-3+3
-*FvwmButtons: Rows        6
+*FvwmButtons: Geometry    32x60+3+3
+*FvwmButtons: Rows        3
 
 *FvwmButtons: Columns     1
 *FvwmButtons: BoxSize     smart
 *FvwmButtons: Padding     0 0
-    
-*FvwmButtons: (1x1, Action beep, ActionIgnoresClientWindow, \
-  Swallow xeyes "Exec exec xeyes -fg yellow -bg brown -outline green -center black")
-*FvwmButtons: (1x1, Padding 0, Title "MENU",   \
-  Action `Menu MainMenu rectangle \
-  $widthx$height+$lleft+$top o+50 -100m`)
-*FvwmButtons: (1x1, Swallow "xload", `Exec xload -bg black \
-  -fg rgb:62/65/44 \
+*FvwmButtons: (1x1, \
+  Swallow xeyes "xeyes", \
+  `Exec xeyes -fg yellow -bg brown -outline green -center black &`, \
+  Action 'Function ToggleAlacritty')
+*FvwmButtons: (1x1, Swallow "xload", 
+  `Exec xload -bg black -fg rgb:62/65/44 \
   -update 1 -nolabel -hl limegreen -jumpscroll 1 &`, \
   Action 'Function ToggleConsoleTop') 
-
-*FvwmButtons: (1x1, Icon terminal.png, Action 'Function ToggleAlacritty')
-*FvwmButtons: (1x1, Icon clock.png, Action `Exec gnome-clocks &`)
 *FvwmButtons: (1x1, Icon lock.xpm, Action `Exec xlock`)
+
+# old:
+# *FvwmButtons: (1x1, Action 'Function ToggleAlacritty', ActionIgnoresClientWindow, \
+#  Swallow xeyes "Exec exec xeyes -fg yellow -bg brown -outline green -center black")
 
 ########## PANEL WinOps
 DestroyModuleConfig WinOps: *
