@@ -259,7 +259,7 @@ AddToFunc ToggleConsole
 DestroyFunc ToggleConsoleTop
 AddToFunc ToggleConsoleTop
 + I All (FvwmConsole) Close
-+ I TestRc (NoMatch) Module FvwmConsole -g 46x7+5+5 -fn "xft:Sans:size=11" +sb -terminal urxvt -bg darkgreen -fg limegreen
++ I TestRc (NoMatch) Module FvwmConsole -g 46x7+5+5 -fn "xft:Iosevka:size=11" +sb -terminal urxvt -bg darkgreen -fg limegreen
 
 
 
@@ -277,7 +277,9 @@ AddToFunc ToggleURxvt
 + I All (URxvt) Focus
 + I All (URxvt) Raise
 + I All (URxvt) WarpToWindow +30p +30p
-+ I TestRc (NoMatch) Exec exec urxvt +sb
++ I TestRc (NoMatch) Exec exec urxvt +sb -fn "Iosevka:size=11"
+
+#-bg darkgreen -fg limegreen
 
 DestroyFunc ToggleFirefox
 AddToFunc ToggleFirefox
@@ -533,8 +535,12 @@ DestroyModuleConfig FvwmPager: *
 
 
 # Keys for the Root Window
+#Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
+#        -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
+#        -fade 50 -fadeColor black -cr limegreen -bc
+
 Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
-        -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
+        -fn "xft:Iosevka:pixelsize=13:autohint=true" \
         -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu QuickProgram mouse c c
