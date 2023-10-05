@@ -37,3 +37,10 @@ KillModule FvwmPager
 quit
 quit
 echo
+q
+quit
+quit
+WindowList
+Module FvwmPerl -l fvwm-menu-desktop-config.fpl
+WindowShade Off
+quit

@@ -850,8 +850,10 @@ Key Space WIFS 4  Function Thumbnail
 Key Space A    4S All (CurrentPage,!Fvwm*B*) Iconify on
 Key I WIFS     4  Function Thumbnail
 Key I A        4S All (CurrentPage,!Fvwm*B*) Function Thumbnail
-Key Space A    MS All (CurrentPage,!Fvwm*B*) Iconify on
-Key Space WIFS M  Function Thumbnail
+
+# ktr - We want to use Meta-Space for notes.
+#Key Space A    MS All (CurrentPage,!Fvwm*B*) Iconify on
+#Key Space WIFS M  Function Thumbnail
 
 Key M WFS  4S Move 50-50w 50-50w
 Key M WFS  4  Maximize 0 100
