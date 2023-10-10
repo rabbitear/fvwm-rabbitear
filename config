@@ -28,7 +28,7 @@ EwmhBaseStruts 0 128 0 0
 DesktopSize      2x2 1x1
 EdgeScroll      150 150
 EdgeThickness 2
-EdgeResistance 450
+EdgeResistance 550
 Style * EdgeMoveDelay 450
 Style * EdgeMoveResistance 450
 
@@ -116,7 +116,7 @@ Style "FvwmTaskBar" Sticky, NoTitle, NoHandles, BorderWidth 4, HandleWidth 4, Wi
 ## Styles For Non-Apps ##
 #########################
 # General Non-App Styles (New)
-Style * EdgeMoveDelay 220
+Style * EdgeMoveDelay 320
 Style * EdgeMoveResistance 30
 Style * SnapAttraction 8
 Style * OpaqueMoveSize -1
