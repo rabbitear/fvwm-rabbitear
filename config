@@ -176,6 +176,7 @@ Style "qemu-system-x86_64" StartsOnPage 1 0, InitialMapCommand Move 1 1
 Style "urxvt" BorderWidth 6, Handlewidth 6, MiniIcon linux.xpm, \
     Icon utilities-terminal.png, PositionPlacement UnderMouse
 Style "firefox*" !UsePPosition, Icon web-browser.png
+Style "Picture-in-Picture" Sticky, StaysOnTop
 
 ###############
 ## Functions ##
@@ -227,14 +228,14 @@ AddToFunc EWMHActivateWindowFunc
 #that also assures the pointer will be at pos +80/+15 within the windows
 DestroyFunc WindowListFunc
 AddToFunc WindowListFunc
-+ I WindowId $0 Iconify off
++ I WindowId $0 DeiconifyAndRearrange
 + I WindowId $0 FlipFocus
 + I WindowId $0 Raise
 + I WindowId $0 WarpToWindow +35p +35p
 
 DestroyFunc WindowUp
 AddToFunc WindowUp
-+ I Current (!Iconic) Iconify off
++ I Current (!Iconic) DeiconifyAndRearrange
 + I Focus
 + I Raise
 + I WarpToWindow +30p +35p
@@ -277,17 +278,15 @@ AddToFunc ToggleURxvt
 + I All (URxvt) Focus
 + I All (URxvt) Raise
 + I All (URxvt) WarpToWindow +30p +30p
-+ I TestRc (NoMatch) Exec exec urxvt +sb -fn "Iosevka:size=11"
-
-#-bg darkgreen -fg limegreen
++ I TestRc (NoMatch) Exec exec urxvt +sb -fn "Iosevka:size=11" \
+     -bg darkgreen -fg limegreen
 
 DestroyFunc ToggleFirefox
 AddToFunc ToggleFirefox
-+ I All (firefox) Iconify Off
-+ I All (firefox) Focus
-+ I All (firefox) Raise
-+ I All (firefox) WarpToWindow +200p +90p
-+ I TestRc (NoMatch) Exec exec firefox
++ I Exec exec firefox
++ I Wait firefox
++ I Next (firefox) WarpToWindow +50p +50p
+
 
 DestroyFunc ToggleSteam
 AddToFunc ToggleSteam
@@ -372,7 +371,7 @@ AddToFunc   ReThumbnail
 DestroyModuleConfig FvwmEvent: *
 *FvwmEvent: deiconify DeThumbnail
 
-Mouse 1 I A Iconify off
+Mouse 1 I A DeiconifyAndRearrange
 
 
 DestroyFunc  FuncFvwmMenuColorset
@@ -926,7 +925,6 @@ Key L A  4S Exec xscreensaver-command -0lock
 
 Key P A  4  HELPMENU
 Key O A  4  HELPMENU
-Key Z A  4  HELPMENU
 Key H A  4  HELPMENU
 Key MENU A N HELPMENU
 
