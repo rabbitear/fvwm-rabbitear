@@ -120,7 +120,8 @@ Style * EdgeMoveDelay 320
 Style * EdgeMoveResistance 30
 Style * SnapAttraction 8
 Style * OpaqueMoveSize -1
-Style * IconBox 260x700-2-55, IconFill Bottom Right
+Style * IconBox 0 120 -2 -55, IconFill Bottom Right
+#Style * IconBox 260x700-2-55, IconFill Bottom Right
 Style * ResizeOpaque 
 # ktr - use the below if resizing is taking too much time.
 Style rxvt ResizeOutline
