@@ -120,7 +120,7 @@ Style * EdgeMoveDelay 320
 Style * EdgeMoveResistance 30
 Style * SnapAttraction 8
 Style * OpaqueMoveSize -1
-Style * IconBox 260x380-2-55, IconFill Bottom Right
+Style * IconBox 260x700-2-55, IconFill Bottom Right
 Style * ResizeOpaque 
 # ktr - use the below if resizing is taking too much time.
 Style rxvt ResizeOutline
@@ -542,7 +542,10 @@ Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
         -fn "xft:Iosevka:pixelsize=13:autohint=true" \
         -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 2         R       A       Function FvwmExpose
-Mouse 3         R       A       Menu QuickProgram mouse c c
+Mouse 3         R       A       Menu QuickProgram mouse c c Exec exec \
+        urxvt +sb -geometry 80x9 \
+        -fn "xft:Iosevka:pixelsize=13:autohint=true" \
+        -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 3         R       4       Function QuickProgramClearDesktop
 Mouse 3         R       C       WindowList mouse c c
 Mouse 3         R       M       WindowList mouse c c
