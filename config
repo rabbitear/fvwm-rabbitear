@@ -286,13 +286,22 @@ AddToFunc ToggleNotes
 + I Wait WikiJournal
 + I Next (WikiJournal) WarpToWindow +50p +50p
 
-#+ I Next (WikiJournal) AnimatedMove +2 +2 Warp
-#
-#+ I All (WikiJournal) FakeKeypress press Escape \
-#    press colon \
-#    press w \
-#    press q \
-#    press Return
+DestroyFunc ToggleQuickTerm
+AddToFunc ToggleQuickTerm
++ I Next (QuickTerm) PipeRead 'test $[w.y] -gt 50 \
+    && echo AnimatedMove keep +2 \
+    || echo AnimatedMove keep -2'
++ I Next (QuickTerm) Focus
++ I Next (QuickTerm) Raise
++ I Next (QuickTerm) WarpToWindow +30p +30p
++ I TestRc (NoMatch) Exec exec urxvt +sb \
+    -name QuickTerm -fade 30 \
+    -geometry 80x13+5+5 \
+    -bg darkgreen -fg limegreen
++ I Wait QuickTerm
++ I Next (QuickTerm) WarpToWindow +50p +50p
+
+#+ I Next (QuickTerm) DeiconifyAndRearrange
 
 DestroyFunc ToggleAlacritty
 AddToFunc ToggleAlacritty
@@ -301,15 +310,6 @@ AddToFunc ToggleAlacritty
 + I All (Alacritty) Raise
 + I All (Alacritty) WarpToWindow +30p +30p
 + I TestRc (NoMatch) Exec exec alacritty
-
-DestroyFunc ToggleURxvt
-AddToFunc ToggleURxvt
-+ I All (URxvt) Iconify Off
-+ I All (URxvt) Focus
-+ I All (URxvt) Raise
-+ I All (URxvt) WarpToWindow +30p +30p
-+ I TestRc (NoMatch) Exec exec urxvt +sb -fn "Iosevka:size=11" \
-     -bg darkgreen -fg limegreen
 
 DestroyFunc ToggleFirefox
 AddToFunc ToggleFirefox
@@ -568,9 +568,10 @@ DestroyModuleConfig FvwmPager: *
 #        -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
 #        -fade 50 -fadeColor black -cr limegreen -bc
 
-Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
-        -fn "xft:Iosevka:pixelsize=13:autohint=true" \
-        -fade 50 -fadeColor black -cr limegreen -bc
+#Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
+#        -fn "xft:Iosevka:pixelsize=13:autohint=true" \
+#        -fade 50 -fadeColor black -cr limegreen -bc
+Mouse 1         R       A       Nop
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu QuickProgram mouse c c Exec exec \
         urxvt +sb -geometry 80x9 \
@@ -899,8 +900,8 @@ Key J A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
 Key K A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
-Key J A 4   Prev (AcceptsFocus, CurrentPage) Function WindowUp
-Key K A 4   Next (AcceptsFocus, CurrentPage) Function WindowUp 
+Key J A 4   Prev (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp
+Key K A 4   Next (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp 
 
 # ktr - moving from pages to page..
 Key Left  A 4S Scroll -10 0
@@ -947,10 +948,10 @@ Key Y A 4S Exec exec flameshot full -p $HOME/Pictures/screenshots
 # Toggle apps
 # ktr - Alt-Enter will be for notes, Super-Enter is too close.
 #Key Return A 4  Function ToggleAlacritty
-Key Return A 4S Function ToggleURxvt
 Key F      A 4  Function ToggleFirefox
 Key F      A 4S Function ToggleFirefox
 Key C      A 4  Function ToggleNotes
+Key V      A 4  Function ToggleQuickTerm
 Key X      A 4  Function ToggleConsole
 
 # ktr - misc, global wm fucntions.
