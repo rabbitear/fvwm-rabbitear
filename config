@@ -120,6 +120,7 @@ Style * EdgeMoveDelay 320
 Style * EdgeMoveResistance 30
 Style * SnapAttraction 8
 Style * OpaqueMoveSize -1
+# This IconBox style should work with any size monitor.
 Style * IconBox 0 120 -2 -55, IconFill Bottom Right
 #Style * IconBox 260x700-2-55, IconFill Bottom Right
 Style * ResizeOpaque 
@@ -178,6 +179,8 @@ Style "urxvt" BorderWidth 6, Handlewidth 6, MiniIcon linux.xpm, \
     Icon utilities-terminal.png, PositionPlacement UnderMouse
 Style "firefox*" !UsePPosition, Icon web-browser.png
 Style "Picture-in-Picture" Sticky, StaysOnTop
+Style "WikiJournal" Sticky, !Closable, !Iconifiable, !Title, !Maximizable
+
 
 ###############
 ## Functions ##
@@ -257,13 +260,32 @@ DestroyFunc ToggleConsole
 AddToFunc ToggleConsole
 + I All (FvwmConsole) Close
 + I TestRc (NoMatch) Module FvwmConsole -g 30x6+10-10 -fn 5x8 +sb -terminal xterm -bg midnightblue -fg yellow
++ I Wait FvwmConsole
++ I Next (FvwmConsole) WarpToWindow +10p +15p
 
 DestroyFunc ToggleConsoleTop
 AddToFunc ToggleConsoleTop
 + I All (FvwmConsole) Close
 + I TestRc (NoMatch) Module FvwmConsole -g 46x7+5+5 -fn "xft:Iosevka:size=11" +sb -terminal urxvt -bg darkgreen -fg limegreen
 
+DestroyFunc ToggleNotes
+AddToFunc ToggleNotes
++ I Next (WikiJournal) Focus
++ I Next (WikiJournal) Raise
++ I Next (WikiJournal) WarpToWindow +50p +50p
++ I Next (WikiJournal) AnimatedMove +2 +2 Warp
++ I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=13" \
+    -fg black -bg amber +sb -geometry 80x11+5-5 \
+    -fade 30 -name WikiJournal -title WikiJournal +uc -sl 0 -b 10 \
+    -e nvim -c WikiJournal
++ I Wait WikiJournal
++ I Next (WikiJournal) WarpToWindow +50p +50p
 
+#+ I All (WikiJournal) FakeKeypress press Escape \
+#    press colon \
+#    press w \
+#    press q \
+#    press Return
 
 DestroyFunc ToggleAlacritty
 AddToFunc ToggleAlacritty
@@ -921,9 +943,10 @@ Key Y A 4S Exec exec flameshot full -p $HOME/Pictures/screenshots
 Key Return A 4S Function ToggleURxvt
 Key F      A 4  Function ToggleFirefox
 Key F      A 4S Function ToggleFirefox
+Key C      A 4  Function ToggleNotes
+Key X      A 4  Function ToggleConsole
 
 # ktr - misc, global wm fucntions.
-Key C A  4  Function ToggleConsole
 Key R A  4S Restart
 Key L A  4S Exec xscreensaver-command -0lock
 
