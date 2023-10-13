@@ -294,7 +294,7 @@ AddToFunc ToggleQuickTerm
 + I Next (QuickTerm) Focus
 + I Next (QuickTerm) Raise
 + I Next (QuickTerm) WarpToWindow +30p +30p
-+ I TestRc (NoMatch) Exec exec urxvt +sb \
++ I TestRc (NoMatch) Exec exec urxvt +sb -bc -uc \
     -name QuickTerm -fade 30 \
     -geometry 80x13+5+5 \
     -bg darkgreen -fg limegreen
