@@ -223,7 +223,7 @@ AddToFunc RestartFunction
 DestroyFunc EWMHActivateWindowFunc
 AddToFunc EWMHActivateWindowFunc 
 + I Echo "Hey EWMH Activate $[w.id] happened, ktr."
-+ I Iconify Off
++ I DeiconifyAndRearrange 
 + I Focus
 + I Raise
 + I WarpToWindow 50 50
@@ -305,7 +305,7 @@ AddToFunc ToggleQuickTerm
 
 DestroyFunc ToggleAlacritty
 AddToFunc ToggleAlacritty
-+ I All (Alacritty) Iconify Off
++ I All (Alacritty) DeiconifyAndRearrange
 + I All (Alacritty) Focus
 + I All (Alacritty) Raise
 + I All (Alacritty) WarpToWindow +30p +30p
@@ -880,7 +880,7 @@ Mouse ($[APP_NAME]) 3 S A Menu WindowOptionsMenu Nop
 # KEY bindings
 #
 Key Space WIFS 4  Function Thumbnail
-Key Space A    4S All (CurrentPage,!Fvwm*B*) Iconify on
+Key Space A    4S All (CurrentPage,!Fvwm*B*) Function Thumbnail
 Key I WIFS     4  Function Thumbnail
 Key I A        4S All (CurrentPage,!Fvwm*B*) Function Thumbnail
 
