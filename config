@@ -271,10 +271,14 @@ AddToFunc ToggleConsoleTop
 
 DestroyFunc ToggleNotes
 AddToFunc ToggleNotes
+# this 50 is kind of hacky, if the y of the window is greater than
+# "the top" which 50 might be around..
++ I Next (WikiJournal) PipeRead 'test $[w.y] -gt 50 \
+    && echo AnimatedMove keep +2 \
+    || echo AnimatedMove keep -2'
 + I Next (WikiJournal) Focus
 + I Next (WikiJournal) Raise
 + I Next (WikiJournal) WarpToWindow +50p +50p
-+ I Next (WikiJournal) AnimatedMove +2 +2 Warp
 + I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=13" \
     -fg black -bg amber +sb -geometry 80x11+5-5 \
     -fade 30 -name WikiJournal -title WikiJournal +uc -sl 0 -b 10 \
@@ -282,6 +286,8 @@ AddToFunc ToggleNotes
 + I Wait WikiJournal
 + I Next (WikiJournal) WarpToWindow +50p +50p
 
+#+ I Next (WikiJournal) AnimatedMove +2 +2 Warp
+#
 #+ I All (WikiJournal) FakeKeypress press Escape \
 #    press colon \
 #    press w \
