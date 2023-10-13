@@ -26,12 +26,12 @@ EwmhBaseStruts 0 128 0 0
 #DesktopSize     2x2
 #DesktopSize     1x1
 DesktopSize      2x2 1x1
-EdgeScroll      150 150
+EdgeScroll      100 100
 EdgeThickness 2
-EdgeResistance 550
-Style * EdgeMoveDelay 450
-Style * EdgeMoveResistance 450
-
+EdgeResistance 350
+Style * EdgeMoveDelay 350
+Style * EdgeMoveResistance 350
+GeometryWindow Hide Never
 
 #############################
 ## Decor & Menus & Modules ##
@@ -239,10 +239,11 @@ AddToFunc WindowListFunc
 
 DestroyFunc WindowUp
 AddToFunc WindowUp
-+ I Current (!Iconic) DeiconifyAndRearrange
 + I Focus
 + I Raise
 + I WarpToWindow +30p +35p
+
+#+ I Next (!Iconic) DeiconifyAndRearrange
 
 DestroyFunc MaximizeWarpTo
 AddToFunc MaximizeWarpTo
@@ -769,19 +770,19 @@ AddToMenu "RadioMenu" " \o/ Radio \o/ " title
 #################################
 # Volume Control (key is MOD-V)
 #
-DestroyMenu VolumeControl
-AddToMenu VolumeControl 
-+ "100%" Function VolumeSet 100
-+ "90%" Function VolumeSet 90
-+ "80%" Function VolumeSet 80
-+ "70%" Function VolumeSet 70
-+ "60%" Function VolumeSet 60
-+ "50%" Function VolumeSet 50
-+ "40%" Function VolumeSet 40
-+ "30%" Function VolumeSet 30
-+ "20%" Function VolumeSet 20
-+ "10%" Function VolumeSet 10
-+ "0%" Function VolumeSet 0
+#DestroyMenu VolumeControl
+#AddToMenu VolumeControl 
+#+ "100%" Function VolumeSet 100
+#+ "90%" Function VolumeSet 90
+#+ "80%" Function VolumeSet 80
+#+ "70%" Function VolumeSet 70
+#+ "60%" Function VolumeSet 60
+#+ "50%" Function VolumeSet 50
+#+ "40%" Function VolumeSet 40
+#+ "30%" Function VolumeSet 30
+#+ "20%" Function VolumeSet 20
+#+ "10%" Function VolumeSet 10
+#+ "0%" Function VolumeSet 0
 
 
 DestroyMenu WindowOptionsMenu
@@ -888,12 +889,12 @@ Key Q WFSI 4S Close
 
 
 # ktr - switching windows..
-Key J A 4  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
+Key J A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
-Key K A 4  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
+Key K A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
-Key J A 4S Prev (AcceptsFocus, CurrentPage) Function WindowUp
-Key K A 4S Next (AcceptsFocus, CurrentPage) Function WindowUp 
+Key J A 4   Prev (AcceptsFocus, CurrentPage) Function WindowUp
+Key K A 4   Next (AcceptsFocus, CurrentPage) Function WindowUp 
 
 # ktr - moving from pages to page..
 Key Left  A 4S Scroll -10 0
