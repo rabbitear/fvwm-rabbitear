@@ -950,8 +950,10 @@ Key Y A 4S Exec exec flameshot full -p $HOME/Pictures/screenshots
 #Key Return A 4  Function ToggleAlacritty
 Key F      A 4  Function ToggleFirefox
 Key F      A 4S Function ToggleFirefox
-Key C      A 4  Function ToggleNotes
-Key V      A 4  Function ToggleQuickTerm
+Key Space  A M  Function ToggleNotes
+Key Space  A 4C Function ToggleQuickTerm
+Key Space  A MC Function ToggleQuickTerm
+Key Space  A 4M Function ToggleQuickTerm
 Key X      A 4  Function ToggleConsole
 
 # ktr - misc, global wm fucntions.
