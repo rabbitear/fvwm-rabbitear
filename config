@@ -66,9 +66,9 @@ AddToDecor "stoneage" TitleStyle Height 25
 + AddButtonStyle 2 ActiveUp   pixmap buttons/gold_min.xpm
 + AddButtonStyle 2 ActiveDown pixmap buttons/rock-beige.xpm
 + AddButtonStyle 2 Inactive   pixmap buttons/gold_min.xpm
-+ AddButtonStyle 3 ActiveUp   pixmap google-16x16.png
-+ AddButtonStyle 3 ActiveDown pixmap google-16x16.png
-+ AddButtonStyle 3 Inactive   pixmap google-16x16.png
++ AddButtonStyle 3 ActiveUp   pixmap viewer.xpm
++ AddButtonStyle 3 ActiveDown pixmap viewer.xpm
++ AddButtonStyle 3 Inactive   pixmap viewer.xpm
 + AddButtonStyle 4 ActiveUp   pixmap buttons/rock_min.xpm
 + AddButtonStyle 4 ActiveDown pixmap buttons/rock_min.xpm
 + AddButtonStyle 4 Inactive   pixmap buttons/rock-beige.xpm
@@ -158,7 +158,7 @@ Style "xcalc" MiniIcon calculator.xpm, Icon accessories-calculator.png
 Style "xmag" MiniIcon viewer.xpm
 Style "Xman" MiniIcon help.xpm
 Style "xscreensaver*" MiniIcon unknown.xpm
-Style "surf" MiniIcon surf.png
+Style "Surf" MiniIcon surf.png
 Style "Pidgin" StartsOnPage 1 0, BorderWidth 6, !Maximizable
 Style "Buddy List" !Closable, StartsOnPage 1 0, InitialMapCommand Iconify, \
     !Maximizable
@@ -195,12 +195,10 @@ AddToFunc InitFunction
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
 + I Exec exec copyq
-#+ I Exec exec conky --alignment=bottom_left --double-buffer --daemonize \
-#    --config=$HOME/.fvwm/conkyrc
++ I All (Iconic) ReThumbnail
 
 # Start happens when restart
 AddToFunc StartFunction
-+ I Exec exec xsetroot -solid grey10
 + I Exec exec feh --bg-scale ~/.fvwm/Pixmap/backgrounds/island-view1.jpg
 + I Exec exec xset r rate 175 60
 + I Exec exec ~/.fvwm/bin/check_stalonetray.sh
@@ -276,11 +274,14 @@ AddToFunc ToggleNotes
 + I Next (WikiJournal) PipeRead 'test $[w.y] -gt 50 \
     && echo AnimatedMove keep +2 \
     || echo AnimatedMove keep -2'
-+ I Next (WikiJournal) Focus
++ I Next (WikiJournal) FlipFocus
 + I Next (WikiJournal) Raise
-+ I Next (WikiJournal) WarpToWindow +50p +50p
-+ I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=13" \
-    -fg black -bg amber +sb -geometry 80x11+5-5 \
++ I Next (WikiJournal) WarpToWindow !raise +50p +50p
++ I All (WikiJournal) FakeKeypress depth 3 press Escape press colon \
+    press w press q
++ I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=16" \
+    -bg black \
+    +sb -geometry 80x11+5-5 \
     -fade 30 -name WikiJournal -title WikiJournal +uc -sl 0 -b 10 \
     -e nvim -c WikiJournal
 + I Wait WikiJournal
@@ -288,44 +289,59 @@ AddToFunc ToggleNotes
 
 DestroyFunc ToggleQuickTerm
 AddToFunc ToggleQuickTerm
-+ I Next (QuickTerm) PipeRead 'test $[w.y] -gt 50 \
++ I Next (QuickTerm, !Iconic) PipeRead 'test $[w.y] -gt 50 \
     && echo AnimatedMove keep +2 \
     || echo AnimatedMove keep -2'
++ I All (QuickTerm, Iconic) Iconify off
 + I Next (QuickTerm) Focus
-+ I Next (QuickTerm) Raise
-+ I Next (QuickTerm) WarpToWindow +30p +30p
++ I Next (QuickTerm, !raise) Raise
++ I Next (QuickTerm) MoveToPage prev
++ I Next (QuickTerm, !Iconic) WarpToWindow +50p +50p
 + I TestRc (NoMatch) Exec exec urxvt +sb -bc -uc \
     -name QuickTerm -fade 30 \
+<<<<<<< HEAD
     -geometry 80x13+5+5 \
     -bg darkgreen -fg limegreen -cr green
+=======
+    -geometry 80x13+5+5 
+>>>>>>> c4ad9720a55b2f62b4c118d8c31fbc5dbf30ea5d
 + I Wait QuickTerm
-+ I Next (QuickTerm) WarpToWindow +50p +50p
++ I Next (QuickTerm, !Iconic) WarpToWindow +50p +50p
 
-#+ I Next (QuickTerm) DeiconifyAndRearrange
 
 DestroyFunc ToggleAlacritty
 AddToFunc ToggleAlacritty
-+ I All (Alacritty) DeiconifyAndRearrange
 + I All (Alacritty) Focus
++ I All (Alacritty) DeiconifyAndRearrange
 + I All (Alacritty) Raise
 + I All (Alacritty) WarpToWindow +30p +30p
 + I TestRc (NoMatch) Exec exec alacritty
 
-DestroyFunc ToggleFirefox
-AddToFunc ToggleFirefox
-+ I Exec exec firefox
-+ I Wait firefox
-+ I Next (firefox) WarpToWindow +50p +50p
-
-
 DestroyFunc ToggleSteam
 AddToFunc ToggleSteam
-+ I All (steam) Iconify Off
 + I All (steam) Focus
++ I All (steam) DeThumbnail
 + I All (steam) Raise
 + I All (steam) WarpToWindow +200p +90p
 + I TestRc (NoMatch) Exec exec steam
 
+DestroyFunc ToggleFirefox
+AddToFunc ToggleFirefox
++ I Next (firefox, Iconic) Iconify off
++ I Next (firefox) Focus
++ I Next (firefox, !raise) Raise
++ I Next (firefox) MoveToPage prev
++ I Next (firefox, !Iconic) WarpToWindow +340p +90p
++ I TestRc (NoMatch) Exec exec firefox --new-tab https://duckduckgo.com
++ I Wait firefox
++ I Next (firefox) WarpToWindow +340p +90p
+#+ I Next (firefox) Move 50-50w 50-50w
+
+DestroyFunc StartSurf
+AddToFunc StartSurf
++ I Exec exec surf -z 1.8 "https://duckduckgo.com/lite"
++ I Wait Surf
++ I Next (Surf) WarpToWindow +150p +130p
 
 ## ktr - use this later for pidgin and cheese.
 ##       gimp, firefox, rox all look for current running ps.
@@ -376,16 +392,17 @@ AddToFunc   FuncFvwmMenuDirectory
 DestroyFunc Thumbnail
 AddToFunc Thumbnail
 + I Raise
-+ I ThisWindow (!Shaded, Iconifiable, !Iconic, !XTerm) PipeRead \
++ I Current (!Shaded, Iconifiable, !Iconic, !XTerm) PipeRead \
     "xwd -silent -id $[w.id] | convert -scale 64 -frame 1x1 \
     -mattecolor black -quality 0 xwd:- \
     png:$[FVWM_USERDIR]/tmp/icon.tmp.$[w.id].png \
     && echo WindowStyle IconOverride, \
     Icon $[FVWM_USERDIR]/tmp/icon.tmp.$[w.id].png \
     || echo Nop"
-+ I Iconify
++ I Iconify on
 + I WarpToWindow 15p 15p
 
+# This for some reason, only gets ran ever other time a program is iconified.
 DestroyFunc DeThumbnail
 AddToFunc DeThumbnail
 + I Exec rm -f $[FVWM_USERDIR]/tmp/icon.tmp.$[w.id].png
@@ -561,16 +578,6 @@ DestroyModuleConfig FvwmPager: *
 #-------------------------------------------------------------------------------
 #- from menu file
 #-------------------------------------------------------------------------------
-
-
-# Keys for the Root Window
-#Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
-#        -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
-#        -fade 50 -fadeColor black -cr limegreen -bc
-
-#Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
-#        -fn "xft:Iosevka:pixelsize=13:autohint=true" \
-#        -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 1         R       A       Nop
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu QuickProgram mouse c c Exec exec \
@@ -796,7 +803,7 @@ DestroyMenu WindowOptionsMenu
 AddToMenu WindowOptionsMenu 
 + " Help Page  %help.xpm%"              HELPMENU
 + "" Nop
-+ " Iconify    %window-iconify.xpm%"    Module Thumbnail
++ " Iconify    %window-iconify.xpm%"    Function Thumbnail
 + " Ident      %window-identify.xpm%"   Module FvwmIdent
 + " Stick      %window-stick.xpm%"      Stick
 + " ScreenShot %camera.xpm%"        	Function WindowScreenshot
@@ -849,9 +856,12 @@ Mouse ($[APP_NAME]) 1 1 A Menu WindowOptionsMenu Delete
 
 # ktr - surf what is on the clipboard at the time you press the button.
 #Mouse (surf) 1 3 A Menu SurfOps
-Mouse ($[APP_NAME]) 1 3 A Function GoSurf http://google.com
-Mouse ($[APP_NAME]) 1 5 A Function SurfNav -1
-Mouse ($[APP_NAME]) 1 7 A Function SurfNav 1
+Mouse ($[APP_NAME]) 1 3 A Function GoSurf http://duckduckgo.com/lite
+Mouse ($[APP_NAME]) 1 5 A Exec exec xdotool key --window $[w.id] \
+        "Control_L+H"
+Mouse ($[APP_NAME]) 1 7 A Exec exec xdotool key --window $[w.id] \
+        "Control_L+L"
+
 
 # end of ktr stuff
 Mouse ($[APP_NAME]) 1 2 A Function Thumbnail
@@ -888,20 +898,20 @@ Key I A        4S All (CurrentPage,!Fvwm*B*) Function Thumbnail
 #Key Space A    MS All (CurrentPage,!Fvwm*B*) Iconify on
 #Key Space WIFS M  Function Thumbnail
 
-Key M WFS  4S Move 50-50w 50-50w
+Key M WFS  4C Move 50-50w 50-50w
 Key M WFS  4  Maximize 0 100
-Key N WFS  4  Maximize 100 0
+Key M WFS  4S  Maximize 100 0
 Key C WFSI 4S Module FvwmConsole -g 48x9 -bg darkgreen -fg limegreen
 Key Q WFSI 4S Close
 
 
 # ktr - switching windows..
-Key J A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
+Key P A 4   WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
-Key K A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
+Key N A 4   WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
-Key J A 4   Prev (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp
-Key K A 4   Next (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp 
+Key K A 4   Prev (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp
+Key J A 4   Next (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp 
 
 # ktr - moving from pages to page..
 Key Left  A 4S Scroll -10 0
@@ -921,11 +931,12 @@ Key Right A 4 PackWrapperRight
 Key R     A M Window-Rearrange-Two-Column
 
 # ktr - starting PROGRAMS..
-Key W A 4  Exec exec surf -z 1.0 "https://en.wikipedia.org/wiki/$(xclip -o -selection primary)"
-Key W A 4S Exec exec surf -z 1.8 "https://en.wikipedia.org/wiki/$(xclip -o -selection primary)"
-Key D A 4  Exec exec rofi -show drun
-Key G A 4  Exec exec surf -z 1.0 "https://duckduckgo.com/?kae=t&k1=-1&km=l&q=$(xclip -o -selection primary)"
-Key G A 4S Exec exec surf -z 1.3 "https://duckduckgo.com/?kae=t&k1=-1&km=l&kt=e&q=$(xclip -o -selection primary)"
+# https://en.wikipedia.org/wiki/Special:Search?search=
+Key W A 4  Exec exec surf -z 1.8 -s "https://en.wikipedia.org/wiki/Special:Search?search=$(xclip -o -selection primary)"
+Key W A 4S Exec exec surf -z 1.0 -s -i "https://en.wikipedia.org/wiki/Special:Search?search=$(xclip -o -selection primary)"
+Key X A 4  Exec exec rofi -show drun
+Key D A 4  StartSurf
+Key D A 4S Exec exec surf -z 1.3 "https://duckduckgo.com/?kae=t&k1=-1&km=l&kt=e&q=$(xclip -o -selection primary)"
 
 # rofi ddgr search, see ~/.fvwm/bin/ddgr_search.py
 # and https://github.com/gmagno/rofi-ddgr
@@ -950,18 +961,19 @@ Key Y A 4S Exec exec flameshot full -p $HOME/Pictures/screenshots
 #Key Return A 4  Function ToggleAlacritty
 Key F      A 4  Function ToggleFirefox
 Key F      A 4S Function ToggleFirefox
-Key C      A 4  Function ToggleNotes
-Key V      A 4  Function ToggleQuickTerm
-Key X      A 4  Function ToggleConsole
+Key Space  A M  Function ToggleNotes
+Key Space  A 4C Function ToggleQuickTerm
+Key Space  A MC Function ToggleQuickTerm
+Key Space  A 4M Function ToggleQuickTerm
+Key C      A 4  Function ToggleConsole
 
 # ktr - misc, global wm fucntions.
 Key R A  4S Restart
 Key L A  4S Exec xscreensaver-command -0lock
 
-Key P A  4  HELPMENU
 Key O A  4  HELPMENU
 Key H A  4  HELPMENU
-Key MENU A N HELPMENU
+Key Menu A N HELPMENU
 
 DestroyFunc HELPMENU
 AddToFunc HELPMENU
@@ -1099,7 +1111,6 @@ Style "LibreOffice" NoTitle
 Style "surf" Title
 Style "ROX-Filer" Title
 Style "Cheese" NoTitle
-Style "Firefox" NoTitle
 Style "Wireshark" NoTitle
 Style "Recoll" NoTitle
 Style "FvwmPager" Sticky, NoTitle, BorderWidth 7, HandleWidth 7, WindowListSkip, \
