@@ -274,9 +274,9 @@ AddToFunc ToggleNotes
 + I Next (WikiJournal) PipeRead 'test $[w.y] -gt 50 \
     && echo AnimatedMove keep +2 \
     || echo AnimatedMove keep -2'
-+ I Next (WikiJournal) Focus
++ I Next (WikiJournal) FlipFocus
 + I Next (WikiJournal) Raise
-+ I Next (WikiJournal) WarpToWindow +50p +50p
++ I Next (WikiJournal) WarpToWindow !raise +50p +50p
 + I All (WikiJournal) FakeKeypress depth 3 press Escape press colon \
     press w press q
 + I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=16" \
@@ -289,42 +289,43 @@ AddToFunc ToggleNotes
 
 DestroyFunc ToggleQuickTerm
 AddToFunc ToggleQuickTerm
-+ I Next (QuickTerm) PipeRead 'test $[w.y] -gt 50 \
++ I Next (QuickTerm, !Iconic) PipeRead 'test $[w.y] -gt 50 \
     && echo AnimatedMove keep +2 \
     || echo AnimatedMove keep -2'
-+ I Next (QuickTerm) DeiconifyAndRearrange
-+ I Next (QuickTerm) Focus
-+ I Next (QuickTerm) Raise
-+ I Next (QuickTerm) WarpToWindow +30p +30p
++ I All (QuickTerm, Iconic) Iconify off
++ I Next (QuickTerm) FlipFocus
++ I Next (QuickTerm, !Iconic) Raise
++ I Next (QuickTerm, !Iconic) WarpToWindow +50p +50p
 + I TestRc (NoMatch) Exec exec urxvt +sb -bc -uc \
     -name QuickTerm -fade 30 \
     -geometry 80x13+5+5 
 + I Wait QuickTerm
-+ I Next (QuickTerm) WarpToWindow +50p +50p
++ I Next (QuickTerm, !Iconic) WarpToWindow +50p +50p
 
 
 DestroyFunc ToggleAlacritty
 AddToFunc ToggleAlacritty
-+ I All (Alacritty) DeiconifyAndRearrange
 + I All (Alacritty) Focus
++ I All (Alacritty) DeiconifyAndRearrange
 + I All (Alacritty) Raise
 + I All (Alacritty) WarpToWindow +30p +30p
 + I TestRc (NoMatch) Exec exec alacritty
 
 DestroyFunc ToggleSteam
 AddToFunc ToggleSteam
-+ I All (steam) DeThumbnail
 + I All (steam) Focus
++ I All (steam) DeThumbnail
 + I All (steam) Raise
 + I All (steam) WarpToWindow +200p +90p
 + I TestRc (NoMatch) Exec exec steam
 
 DestroyFunc ToggleFirefox
 AddToFunc ToggleFirefox
-+ I Next (firefox) DeThumbnail
++ I Next (firefox, Iconic) Iconify off
 + I Next (firefox) FlipFocus
-+ I Next (firefox) Raise
-+ I Next (firefox) WarpToWindow +340p +90p
++ I Next (firefox, !Iconic) AnimatedMove 50-50w 50-50w
++ I Next (firefox, !Iconic) Raise
++ I Next (firefox, !Iconic) WarpToWindow +340p +90p
 + I TestRc (NoMatch) Exec exec firefox --browser
 + I Wait firefox
 + I Next (firefox) WarpToWindow +340p +90p
@@ -394,11 +395,12 @@ AddToFunc Thumbnail
 + I Iconify on
 + I WarpToWindow 15p 15p
 
+# This for some reason, only gets ran ever other time a program is iconified.
 DestroyFunc DeThumbnail
 AddToFunc DeThumbnail
 + I Exec rm -f $[FVWM_USERDIR]/tmp/icon.tmp.$[w.id].png
 + I DestroyWindowStyle
-+ I Maximize 100 100
+#+ I Maximize 100 100
 
 DestroyFunc ReThumbnail
 AddToFunc   ReThumbnail
@@ -569,16 +571,6 @@ DestroyModuleConfig FvwmPager: *
 #-------------------------------------------------------------------------------
 #- from menu file
 #-------------------------------------------------------------------------------
-
-
-# Keys for the Root Window
-#Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
-#        -fn "xft:Bitstream Vera Sans Mono:pixelsize=9:autohint=true" \
-#        -fade 50 -fadeColor black -cr limegreen -bc
-
-#Mouse 1         R       A       Exec exec urxvt +sb -geometry 80x9 \
-#        -fn "xft:Iosevka:pixelsize=13:autohint=true" \
-#        -fade 50 -fadeColor black -cr limegreen -bc
 Mouse 1         R       A       Nop
 Mouse 2         R       A       Function FvwmExpose
 Mouse 3         R       A       Menu QuickProgram mouse c c Exec exec \
