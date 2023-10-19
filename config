@@ -66,9 +66,9 @@ AddToDecor "stoneage" TitleStyle Height 25
 + AddButtonStyle 2 ActiveUp   pixmap buttons/gold_min.xpm
 + AddButtonStyle 2 ActiveDown pixmap buttons/rock-beige.xpm
 + AddButtonStyle 2 Inactive   pixmap buttons/gold_min.xpm
-+ AddButtonStyle 3 ActiveUp   pixmap google-16x16.png
-+ AddButtonStyle 3 ActiveDown pixmap google-16x16.png
-+ AddButtonStyle 3 Inactive   pixmap google-16x16.png
++ AddButtonStyle 3 ActiveUp   pixmap viewer.xpm
++ AddButtonStyle 3 ActiveDown pixmap viewer.xpm
++ AddButtonStyle 3 Inactive   pixmap viewer.xpm
 + AddButtonStyle 4 ActiveUp   pixmap buttons/rock_min.xpm
 + AddButtonStyle 4 ActiveDown pixmap buttons/rock_min.xpm
 + AddButtonStyle 4 Inactive   pixmap buttons/rock-beige.xpm
@@ -158,7 +158,7 @@ Style "xcalc" MiniIcon calculator.xpm, Icon accessories-calculator.png
 Style "xmag" MiniIcon viewer.xpm
 Style "Xman" MiniIcon help.xpm
 Style "xscreensaver*" MiniIcon unknown.xpm
-Style "surf" MiniIcon surf.png
+Style "Surf" MiniIcon surf.png
 Style "Pidgin" StartsOnPage 1 0, BorderWidth 6, !Maximizable
 Style "Buddy List" !Closable, StartsOnPage 1 0, InitialMapCommand Iconify, \
     !Maximizable
@@ -291,17 +291,16 @@ AddToFunc ToggleQuickTerm
 + I Next (QuickTerm) PipeRead 'test $[w.y] -gt 50 \
     && echo AnimatedMove keep +2 \
     || echo AnimatedMove keep -2'
++ I Next (QuickTerm) DeiconifyAndRearrange
 + I Next (QuickTerm) Focus
 + I Next (QuickTerm) Raise
 + I Next (QuickTerm) WarpToWindow +30p +30p
 + I TestRc (NoMatch) Exec exec urxvt +sb -bc -uc \
     -name QuickTerm -fade 30 \
-    -geometry 80x13+5+5 \
-    -bg darkgreen -fg limegreen
+    -geometry 80x13+5+5 
 + I Wait QuickTerm
 + I Next (QuickTerm) WarpToWindow +50p +50p
 
-#+ I Next (QuickTerm) DeiconifyAndRearrange
 
 DestroyFunc ToggleAlacritty
 AddToFunc ToggleAlacritty
@@ -311,13 +310,6 @@ AddToFunc ToggleAlacritty
 + I All (Alacritty) WarpToWindow +30p +30p
 + I TestRc (NoMatch) Exec exec alacritty
 
-DestroyFunc ToggleFirefox
-AddToFunc ToggleFirefox
-+ I Exec exec firefox
-+ I Wait firefox
-+ I Next (firefox) WarpToWindow +50p +50p
-
-
 DestroyFunc ToggleSteam
 AddToFunc ToggleSteam
 + I All (steam) Iconify Off
@@ -325,6 +317,23 @@ AddToFunc ToggleSteam
 + I All (steam) Raise
 + I All (steam) WarpToWindow +200p +90p
 + I TestRc (NoMatch) Exec exec steam
+
+DestroyFunc ToggleFirefox
+AddToFunc ToggleFirefox
++ I All (firefox) DeiconifyAndRearrange
++ I All (firefox) Focus
++ I All (firefox) Raise
++ I All (firefox) WarpToWindow +340p +90p
++ I TestRc (NoMatch) Exec exec firefox
++ I Wait firefox
++ I Next (firefox) WarpToWindow +340p +90p
+
+
+DestroyFunc StartSurf
+AddToFunc StartSurf
++ I Exec exec surf -z 1.0 "https://duckduckgo.com/lite"
++ I Wait Surf
++ I Next (Surf) WarpToWindow +150p +130p
 
 
 ## ktr - use this later for pidgin and cheese.
@@ -849,7 +858,7 @@ Mouse ($[APP_NAME]) 1 1 A Menu WindowOptionsMenu Delete
 
 # ktr - surf what is on the clipboard at the time you press the button.
 #Mouse (surf) 1 3 A Menu SurfOps
-Mouse ($[APP_NAME]) 1 3 A Function GoSurf http://google.com
+Mouse ($[APP_NAME]) 1 3 A Function GoSurf http://duckduckgo.com/lite
 Mouse ($[APP_NAME]) 1 5 A Function SurfNav -1
 Mouse ($[APP_NAME]) 1 7 A Function SurfNav 1
 
@@ -888,20 +897,20 @@ Key I A        4S All (CurrentPage,!Fvwm*B*) Function Thumbnail
 #Key Space A    MS All (CurrentPage,!Fvwm*B*) Iconify on
 #Key Space WIFS M  Function Thumbnail
 
-Key M WFS  4S Move 50-50w 50-50w
+Key M WFS  4C Move 50-50w 50-50w
 Key M WFS  4  Maximize 0 100
-Key N WFS  4  Maximize 100 0
+Key M WFS  4S  Maximize 100 0
 Key C WFSI 4S Module FvwmConsole -g 48x9 -bg darkgreen -fg limegreen
 Key Q WFSI 4S Close
 
 
 # ktr - switching windows..
-Key J A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
+Key P A 4   WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
-Key K A 4S  WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
+Key N A 4   WindowList Root c c CurrentDesk, IconifiedAtEnd, NoGeometry, \
                UseIconName, SelectOnRelease Super_L
-Key J A 4   Prev (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp
-Key K A 4   Next (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp 
+Key K A 4   Prev (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp
+Key J A 4   Next (AcceptsFocus, CurrentPage, !Iconic) Function WindowUp 
 
 # ktr - moving from pages to page..
 Key Left  A 4S Scroll -10 0
@@ -923,9 +932,9 @@ Key R     A M Window-Rearrange-Two-Column
 # ktr - starting PROGRAMS..
 Key W A 4  Exec exec surf -z 1.0 "https://en.wikipedia.org/wiki/$(xclip -o -selection primary)"
 Key W A 4S Exec exec surf -z 1.8 "https://en.wikipedia.org/wiki/$(xclip -o -selection primary)"
-Key D A 4  Exec exec rofi -show drun
-Key G A 4  Exec exec surf -z 1.0 "https://duckduckgo.com/?kae=t&k1=-1&km=l&q=$(xclip -o -selection primary)"
-Key G A 4S Exec exec surf -z 1.3 "https://duckduckgo.com/?kae=t&k1=-1&km=l&kt=e&q=$(xclip -o -selection primary)"
+Key X A 4  Exec exec rofi -show drun
+Key D A 4  StartSurf
+Key D A 4S Exec exec surf -z 1.3 "https://duckduckgo.com/?kae=t&k1=-1&km=l&kt=e&q=$(xclip -o -selection primary)"
 
 # rofi ddgr search, see ~/.fvwm/bin/ddgr_search.py
 # and https://github.com/gmagno/rofi-ddgr
@@ -954,16 +963,15 @@ Key Space  A M  Function ToggleNotes
 Key Space  A 4C Function ToggleQuickTerm
 Key Space  A MC Function ToggleQuickTerm
 Key Space  A 4M Function ToggleQuickTerm
-Key X      A 4  Function ToggleConsole
+Key C      A 4  Function ToggleConsole
 
 # ktr - misc, global wm fucntions.
 Key R A  4S Restart
 Key L A  4S Exec xscreensaver-command -0lock
 
-Key P A  4  HELPMENU
 Key O A  4  HELPMENU
 Key H A  4  HELPMENU
-Key MENU A N HELPMENU
+Key Menu A N HELPMENU
 
 DestroyFunc HELPMENU
 AddToFunc HELPMENU
