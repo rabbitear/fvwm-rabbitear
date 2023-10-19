@@ -195,12 +195,10 @@ AddToFunc InitFunction
 + I Exec exec nm-applet
 + I Exec exec blueman-applet
 + I Exec exec copyq
-#+ I Exec exec conky --alignment=bottom_left --double-buffer --daemonize \
-#    --config=$HOME/.fvwm/conkyrc
++ I All (Iconic) ReThumbnail
 
 # Start happens when restart
 AddToFunc StartFunction
-+ I Exec exec xsetroot -solid grey10
 + I Exec exec feh --bg-scale ~/.fvwm/Pixmap/backgrounds/island-view1.jpg
 + I Exec exec xset r rate 175 60
 + I Exec exec ~/.fvwm/bin/check_stalonetray.sh
@@ -279,8 +277,8 @@ AddToFunc ToggleNotes
 + I Next (WikiJournal) Focus
 + I Next (WikiJournal) Raise
 + I Next (WikiJournal) WarpToWindow +50p +50p
-+ I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=13" \
-    -fg black -bg amber +sb -geometry 80x11+5-5 \
++ I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=16" \
+    +sb -geometry 80x11+5-5 \
     -fade 30 -name WikiJournal -title WikiJournal +uc -sl 0 -b 10 \
     -e nvim -c WikiJournal
 + I Wait WikiJournal
@@ -320,21 +318,19 @@ AddToFunc ToggleSteam
 
 DestroyFunc ToggleFirefox
 AddToFunc ToggleFirefox
-+ I All (firefox) DeiconifyAndRearrange
-+ I All (firefox) Focus
-+ I All (firefox) Raise
-+ I All (firefox) WarpToWindow +340p +90p
-+ I TestRc (NoMatch) Exec exec firefox
++ I Next (firefox) Iconify off
++ I Next (firefox) FlipFocus
++ I Next (firefox) Raise
++ I Next (firefox) WarpToWindow +340p +90p
++ I TestRc (NoMatch) Exec exec firefox --browser
 + I Wait firefox
 + I Next (firefox) WarpToWindow +340p +90p
 
-
 DestroyFunc StartSurf
 AddToFunc StartSurf
-+ I Exec exec surf -z 1.0 "https://duckduckgo.com/lite"
++ I Exec exec surf -z 1.8 "https://duckduckgo.com/lite"
 + I Wait Surf
 + I Next (Surf) WarpToWindow +150p +130p
-
 
 ## ktr - use this later for pidgin and cheese.
 ##       gimp, firefox, rox all look for current running ps.
@@ -859,8 +855,11 @@ Mouse ($[APP_NAME]) 1 1 A Menu WindowOptionsMenu Delete
 # ktr - surf what is on the clipboard at the time you press the button.
 #Mouse (surf) 1 3 A Menu SurfOps
 Mouse ($[APP_NAME]) 1 3 A Function GoSurf http://duckduckgo.com/lite
-Mouse ($[APP_NAME]) 1 5 A Function SurfNav -1
-Mouse ($[APP_NAME]) 1 7 A Function SurfNav 1
+Mouse ($[APP_NAME]) 1 5 A Exec exec xdotool key --window $[w.id] \
+        "Control_L+H"
+Mouse ($[APP_NAME]) 1 7 A Exec exec xdotool key --window $[w.id] \
+        "Control_L+L"
+
 
 # end of ktr stuff
 Mouse ($[APP_NAME]) 1 2 A Function Thumbnail
@@ -930,8 +929,9 @@ Key Right A 4 PackWrapperRight
 Key R     A M Window-Rearrange-Two-Column
 
 # ktr - starting PROGRAMS..
-Key W A 4  Exec exec surf -z 1.0 "https://en.wikipedia.org/wiki/$(xclip -o -selection primary)"
-Key W A 4S Exec exec surf -z 1.8 "https://en.wikipedia.org/wiki/$(xclip -o -selection primary)"
+# https://en.wikipedia.org/wiki/Special:Search?search=
+Key W A 4  Exec exec surf -z 1.8 -s "https://en.wikipedia.org/wiki/Special:Search?search=$(xclip -o -selection primary)"
+Key W A 4S Exec exec surf -z 1.0 -s -i "https://en.wikipedia.org/wiki/Special:Search?search=$(xclip -o -selection primary)"
 Key X A 4  Exec exec rofi -show drun
 Key D A 4  StartSurf
 Key D A 4S Exec exec surf -z 1.3 "https://duckduckgo.com/?kae=t&k1=-1&km=l&kt=e&q=$(xclip -o -selection primary)"
