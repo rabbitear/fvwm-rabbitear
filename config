@@ -293,8 +293,9 @@ AddToFunc ToggleQuickTerm
     && echo AnimatedMove keep +2 \
     || echo AnimatedMove keep -2'
 + I All (QuickTerm, Iconic) Iconify off
-+ I Next (QuickTerm) FlipFocus
-+ I Next (QuickTerm, !Iconic) Raise
++ I Next (QuickTerm) Focus
++ I Next (QuickTerm, !raise) Raise
++ I Next (QuickTerm) MoveToPage prev
 + I Next (QuickTerm, !Iconic) WarpToWindow +50p +50p
 + I TestRc (NoMatch) Exec exec urxvt +sb -bc -uc \
     -name QuickTerm -fade 30 \
@@ -322,13 +323,14 @@ AddToFunc ToggleSteam
 DestroyFunc ToggleFirefox
 AddToFunc ToggleFirefox
 + I Next (firefox, Iconic) Iconify off
-+ I Next (firefox) FlipFocus
-+ I Next (firefox, !Iconic) AnimatedMove 50-50w 50-50w
-+ I Next (firefox, !Iconic) Raise
++ I Next (firefox) Focus
++ I Next (firefox, !raise) Raise
++ I Next (firefox) MoveToPage prev
 + I Next (firefox, !Iconic) WarpToWindow +340p +90p
-+ I TestRc (NoMatch) Exec exec firefox --browser
++ I TestRc (NoMatch) Exec exec firefox --new-tab https://duckduckgo.com
 + I Wait firefox
 + I Next (firefox) WarpToWindow +340p +90p
+#+ I Next (firefox) Move 50-50w 50-50w
 
 DestroyFunc StartSurf
 AddToFunc StartSurf
@@ -1104,7 +1106,6 @@ Style "LibreOffice" NoTitle
 Style "surf" Title
 Style "ROX-Filer" Title
 Style "Cheese" NoTitle
-Style "Firefox" NoTitle
 Style "Wireshark" NoTitle
 Style "Recoll" NoTitle
 Style "FvwmPager" Sticky, NoTitle, BorderWidth 7, HandleWidth 7, WindowListSkip, \
