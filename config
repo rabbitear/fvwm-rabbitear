@@ -277,7 +277,10 @@ AddToFunc ToggleNotes
 + I Next (WikiJournal) Focus
 + I Next (WikiJournal) Raise
 + I Next (WikiJournal) WarpToWindow +50p +50p
++ I All (WikiJournal) FakeKeypress depth 3 press Escape press colon \
+    press w press q
 + I TestRc (NoMatch) Exec exec urxvt -fn "xft:Iosevka:size=16" \
+    -bg black \
     +sb -geometry 80x11+5-5 \
     -fade 30 -name WikiJournal -title WikiJournal +uc -sl 0 -b 10 \
     -e nvim -c WikiJournal
