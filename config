@@ -267,7 +267,7 @@ AddToFunc ToggleConsole
 DestroyFunc ToggleConsoleTop
 AddToFunc ToggleConsoleTop
 + I All (FvwmConsole) Close
-+ I TestRc (NoMatch) Module FvwmConsole -g 46x7+5+5 -fn "xft:Iosevka:size=11" +sb -terminal urxvt -bg darkgreen -fg limegreen
++ I TestRc (NoMatch) Module FvwmConsole -g 46x7+5+5 -fn "xft:Iosevka:size=11" +sb -terminal urxvt -bg darkgreen -fg limegreen 
 
 DestroyFunc ToggleNotes
 AddToFunc ToggleNotes
@@ -297,7 +297,7 @@ AddToFunc ToggleQuickTerm
 + I TestRc (NoMatch) Exec exec urxvt +sb -bc -uc \
     -name QuickTerm -fade 30 \
     -geometry 80x13+5+5 \
-    -bg darkgreen -fg limegreen
+    -bg darkgreen -fg limegreen -cr green
 + I Wait QuickTerm
 + I Next (QuickTerm) WarpToWindow +50p +50p
 
