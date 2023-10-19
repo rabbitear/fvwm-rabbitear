@@ -313,7 +313,7 @@ AddToFunc ToggleAlacritty
 
 DestroyFunc ToggleSteam
 AddToFunc ToggleSteam
-+ I All (steam) Iconify Off
++ I All (steam) DeThumbnail
 + I All (steam) Focus
 + I All (steam) Raise
 + I All (steam) WarpToWindow +200p +90p
@@ -321,7 +321,7 @@ AddToFunc ToggleSteam
 
 DestroyFunc ToggleFirefox
 AddToFunc ToggleFirefox
-+ I Next (firefox) Iconify off
++ I Next (firefox) DeThumbnail
 + I Next (firefox) FlipFocus
 + I Next (firefox) Raise
 + I Next (firefox) WarpToWindow +340p +90p
@@ -384,21 +384,21 @@ AddToFunc   FuncFvwmMenuDirectory
 DestroyFunc Thumbnail
 AddToFunc Thumbnail
 + I Raise
-+ I ThisWindow (!Shaded, Iconifiable, !Iconic, !XTerm) PipeRead \
++ I Current (!Shaded, Iconifiable, !Iconic, !XTerm) PipeRead \
     "xwd -silent -id $[w.id] | convert -scale 64 -frame 1x1 \
     -mattecolor black -quality 0 xwd:- \
     png:$[FVWM_USERDIR]/tmp/icon.tmp.$[w.id].png \
     && echo WindowStyle IconOverride, \
     Icon $[FVWM_USERDIR]/tmp/icon.tmp.$[w.id].png \
     || echo Nop"
-+ I Iconify
++ I Iconify on
 + I WarpToWindow 15p 15p
 
 DestroyFunc DeThumbnail
 AddToFunc DeThumbnail
 + I Exec rm -f $[FVWM_USERDIR]/tmp/icon.tmp.$[w.id].png
 + I DestroyWindowStyle
-#+ I Maximize 100 100
++ I Maximize 100 100
 
 DestroyFunc ReThumbnail
 AddToFunc   ReThumbnail
@@ -804,7 +804,7 @@ DestroyMenu WindowOptionsMenu
 AddToMenu WindowOptionsMenu 
 + " Help Page  %help.xpm%"              HELPMENU
 + "" Nop
-+ " Iconify    %window-iconify.xpm%"    Module Thumbnail
++ " Iconify    %window-iconify.xpm%"    Function Thumbnail
 + " Ident      %window-identify.xpm%"   Module FvwmIdent
 + " Stick      %window-stick.xpm%"      Stick
 + " ScreenShot %camera.xpm%"        	Function WindowScreenshot
