@@ -196,6 +196,9 @@ AddToFunc InitFunction
 + I Exec exec blueman-applet
 + I Exec exec copyq
 + I All (Iconic) ReThumbnail
++ I Exec exec xterm +ai -fn "xft:Source Code Pro for Powerline" \
+    -geometry 80x9+5+5 -title fvwm3log \
+    -e bash -c "tail -f ~/.fvwm/fvwm3-output.log"
 
 # Start happens when restart
 AddToFunc StartFunction
@@ -871,7 +874,6 @@ Mouse ($[APP_NAME]) 2 2 A All (CurrentPage,!Fvwm*B*) Iconify on
 Mouse ($[APP_NAME]) 1 F A Function ResizeOrRaiseOrLowerFunc
 Mouse ($[APP_NAME]) 2 F A RaiseLower
 Mouse ($[APP_NAME]) 3 F A Menu WindowOptionsMenu Nop
-aiseLower
 
 Mouse ($[APP_NAME]) 1 S A Function MoveOrRaiseOrLowerFunc
 Mouse ($[APP_NAME]) 2 S A RaiseLower
@@ -1050,7 +1052,7 @@ Style "HELPMENU" NoTitle
 # MYYYYY BUTTONS !!!!
 #  - we get rid of -all the buttons-
 
-DestoryModuleConfig FvwmButtons: *
+DestroyModuleConfig FvwmButtons: *
 *FvwmButtons: Font        5x7
 *FvwmButtons: Colorset    90
 
@@ -1104,7 +1106,7 @@ Style "surf" Button 3, Button 5, Button 7, !Button 4, !Button 6, !Button 8
 #SetEnv APP_NAME XTerm
 #Style "XTerm" UseStyle XTermStyle
 
-Style "XTerm" NoTitle
+#Style "XTerm" NoTitle
 Style "Pidgin" NoTitle
 Style "Chromium" NoTitle
 Style "LibreOffice" NoTitle
