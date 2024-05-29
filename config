@@ -253,10 +253,18 @@ AddToFunc MaximizeWarpTo
 + I Raise
 + I WarpToWindow +30p +30p
 
+AddToFunc UrgencyFunc 
++ I Raise
+
+AddToFunc UrgencyDoneFunc
++ I Nop 
+
+
+
 DestroyFunc DeiconifyAndRearrange
- AddToFunc DeiconifyAndRearrange
-  + C Iconify off
-  + C All (CurrentPage, Iconic) PlaceAgain Icon
+AddToFunc DeiconifyAndRearrange
++ C Iconify off
++ C All (CurrentPage, Iconic) PlaceAgain Icon
 
 DestroyFunc ToggleConsole
 AddToFunc ToggleConsole
